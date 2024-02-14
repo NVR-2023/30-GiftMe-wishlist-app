@@ -16,8 +16,8 @@ export default function Home() {
             d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
         </svg>
         <span>DaisyUI connected</span>
-        <p>GiftMe wishlist app under development </p>
       </div>
+      <p>GiftMe App under development</p>
     </main>
   );
 }
