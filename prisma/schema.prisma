@@ -1,0 +1,149 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  // directUrl = env("POSTGRES_URL_NON_POOLING")
+}
+
+model UserProfile {
+  userId      Int      @id @default(autoincrement())
+  name        String
+  surname     String
+  avatarImage String?
+  email       String   @unique
+  password    String
+  phone       String?
+  birthDate   DateTime
+  address     String
+  createdAt   DateTime @default(now())
+
+  groups            UserGroup[]
+  wishlists         WishList[]
+  giftReceiver      Gift[]
+  userNotifications UserNotification[]
+  userWishlists     UserWishlist[]
+
+  createdWishLists WishList[]     @relation("WishListCreator")
+  reservedGifts    ReservedGift[]
+}
+
+model GroupList {
+  groupId Int    @id @default(autoincrement())
+  name    String
+
+  users          UserGroup[]
+  groupWishLists GroupWishList[]
+  gifts          Gift[]
+}
+
+model UserGroup {
+  id    Int         @id @default(autoincrement())
+  user  UserProfile @relation(fields: [userId], references: [userId])
+  group GroupList   @relation(fields: [groupId], references: [groupId])
+
+  userId  Int
+  groupId Int
+
+  @@unique([userId, groupId])
+}
+
+model WishList {
+  wishlistId Int         @id @default(autoincrement())
+  name       String      @unique
+  creator    UserProfile @relation("WishListCreator", fields: [userId], references: [userId], onDelete: Cascade)
+  isActive   Boolean     @default(true)
+  userId     Int
+
+  userWishlists UserWishlist[]
+  groups        GroupWishList[]
+  gifts         Gift[]
+
+  createdBy UserProfile @relation(fields: [userId], references: [userId], map: "created_by_fk")
+}
+
+model UserWishlist {
+  id       Int         @id @default(autoincrement())
+  user     UserProfile @relation(fields: [userId], references: [userId])
+  wishlist WishList    @relation(fields: [wishlistId], references: [wishlistId])
+
+  userId     Int
+  wishlistId Int
+
+  // Indica si el usuario es el creador de la lista o el receptor
+  isCreator  Boolean
+  isReceiver Boolean
+
+  @@unique([userId, wishlistId])
+}
+
+model GroupWishList {
+  id         Int       @id @default(autoincrement())
+  group      GroupList @relation(fields: [groupId], references: [groupId], onDelete: Cascade)
+  wishlist   WishList  @relation(fields: [wishlistId], references: [wishlistId], onDelete: Cascade)
+  groupId    Int
+  wishlistId Int
+
+  @@unique([groupId, wishlistId])
+}
+
+model ReservedGift {
+  id           Int      @id @default(autoincrement())
+  reservedDate DateTime @default(now())
+  isPurchased  Boolean  @default(false)
+  gift         Gift     @relation(fields: [giftId], references: [giftId], onDelete: Cascade)
+  giftId       Int
+
+  reservedBy   UserProfile @relation(fields: [reservedById], references: [userId])
+  reservedById Int
+
+  @@unique([giftId], name: "unique_reserved_gift")
+}
+
+model Gift {
+  giftId          Int       @id @default(autoincrement())
+  name            String
+  category        String
+  giftImage       String?
+  provider        String
+  providerUrl     String
+  isSentToMe      Boolean   @default(false)
+  status          String
+  price           Float
+  isPriceTracked  Boolean   @default(false)
+  upperPriceLimit Float?
+  lowerPriceLimit Float?
+  deliverDate     DateTime?
+  maxDeliverDate  DateTime?
+  registerDate    DateTime  @default(now())
+
+  receiverId Int
+  wishlistId Int
+  groupId    Int?
+
+  wishlist      WishList       @relation(fields: [wishlistId], references: [wishlistId], onDelete: Cascade)
+  group         GroupList?     @relation(fields: [groupId], references: [groupId])
+  receiver      UserProfile    @relation(fields: [receiverId], references: userId, onDelete: Cascade)
+  reservedGifts ReservedGift[]
+}
+
+model Notification {
+  id                Int                @id @default(autoincrement())
+  title             String
+  description       String?
+  isRead            Boolean            @default(false)
+  userNotifications UserNotification[]
+}
+
+model UserNotification {
+  id             Int          @id @default(autoincrement())
+  user           UserProfile  @relation(fields: [userId], references: [userId])
+  userId         Int
+  notification   Notification @relation(fields: [notificationId], references: [id], onDelete: Cascade)
+  notificationId Int
+}
