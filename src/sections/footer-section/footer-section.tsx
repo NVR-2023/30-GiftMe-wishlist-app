@@ -2,9 +2,11 @@ import React, { FC } from "react";
 import Link from "next/link";
 import SocialMediaComponent from "@/components/ui/socail-media-component.tsx/social-media-component";
 
-const FooterSection: FC = () => {
+import { BasicStyleComponentType } from "@/types/types";
+
+const FooterSection: FC<BasicStyleComponentType> = ({ background = "bg-white", text = "text-black" }) => {
   return (
-    <footer className="footer p-10 bg-zinc-900 text-white text-sm">
+    <footer className={`footer p-10 text-sm ${background} ${text}`}>
       <nav className="">
         <h3 className="footer-title">Social Media</h3>
         <SocialMediaComponent />
