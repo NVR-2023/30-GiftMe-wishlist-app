@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import BackgroundImage from "./sub-components/background-image";
-import TagHomepage from "./sub-components/tag-homepage";
+import HeadingHomepage from "./sub-components/heading-homepage";
 import TaglineHomepage from "./sub-components/tagline-homepage";
 import SummaryHomepage from "./sub-components/summary-homepage";
 
@@ -12,7 +12,7 @@ const HeroHomepage: FC = () => {
       </div>
       <div className="absolute left-20 top-40 space-y-0.5">
         <div>
-          <TagHomepage />
+          <HeadingHomepage />
         </div>
         <div className="space-y-3">
           <TaglineHomepage />
