@@ -15,7 +15,7 @@ const LogoIcon: React.FC<BasicComponentPropType> = ({ scale = 1, color = "curren
         transform={`translate(0, ${200 * scale}) scale(${0.1 * scale}, -${
           0.1 * scale
         }) translate(0, 0)`}
-        fill="#000000"
+        fill={color}
         stroke="none">
         <path
           d="M185 1258 c-11 -6 -33 -22 -48 -37 -87 -80 -101 -242 -26 -305 45

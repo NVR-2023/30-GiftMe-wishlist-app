@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const HeaderHomepage: FC = () => {
   return (
-    <div className="absolute top-0 w-full">
+    <div className="absolute top-0 w-full text-fuchsia-800">
       <div className="flex justify-center">
         <div className="flex w-11/12 justify-between items-center h-120">
           <div>
