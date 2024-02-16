@@ -15,7 +15,7 @@ export default function Home() {
         </div>
       </div>
       <div className="">
-        <FooterSection background="bg-[#c5852d]" text="text-fuchsia-900" />
+        <FooterSection background="bg-zinc-800" text="text-white" />
       </div>
     </main>
   );
