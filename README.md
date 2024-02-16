@@ -2,7 +2,7 @@
 
 ***************************
 
-A wishlist app that allows users to easily manage wish lists
+An app that allows users to easily manage wish lists
 
 ***************************
 
