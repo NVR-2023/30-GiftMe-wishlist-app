@@ -6,7 +6,7 @@ import { BasicStyleComponentType } from "@/types/types";
 
 const FooterSection: FC<BasicStyleComponentType> = ({ background = "bg-white", text = "text-black" }) => {
   return (
-    <footer className={`footer p-10 text-sm ${background} ${text}`}>
+    <footer className={`footer ps-20 py-10 text-sm ${background} ${text}`}>
       <nav className="">
         <h3 className="footer-title">Social Media</h3>
         <SocialMediaComponent />
@@ -38,7 +38,7 @@ const FooterSection: FC<BasicStyleComponentType> = ({ background = "bg-white", t
           Cookie policy
         </Link>
         <br></br>
-        <p className="text-[.5rem]">Copyright © 2024 GifMe. All rights reserved.</p>
+        <p className="text-[.5rem]">Copyright © 2024 GiftMe. All rights reserved.</p>
       </nav>
     </footer>
   );
