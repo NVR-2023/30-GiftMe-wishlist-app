@@ -4,7 +4,10 @@ import SocialMediaComponent from "@/components/ui/socail-media-component.tsx/soc
 
 import { BasicStyleComponentType } from "@/types/types";
 
-const FooterSection: FC<BasicStyleComponentType> = ({ background = "bg-white", text = "text-black" }) => {
+const FooterSection: FC<BasicStyleComponentType> = ({
+  background = "bg-white",
+  text = "text-black",
+}) => {
   return (
     <footer className={`footer ps-20 py-10 text-sm ${background} ${text}`}>
       <nav className="">

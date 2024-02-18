@@ -1,26 +1,24 @@
-# GiftMe - Full Stack SPA
+## Project Title
 
-***************************
+GiftMe, a wishlist app
 
-An app that allows users to easily manage wish lists
+## Description
 
-***************************
+A SPA Full Stack app where users can manage wishlists and groups
 
-## Current Developers:
+## Stack
 
-- **Lead:** Nuno Rodrigues
-- **Frontend:** Nuno Rodrigues, Diego Casermeiro Gálvez, and Ben Alexander
-- **Backend:** Rui Silva, and Enrique Ibarra
-- **Data Science:** Gonzalo
+FrontEnd: Typescript 5.3, Next.js 14.1, Tailwind CSS 3.3, DaisyUI  4.7
+BackEnd: Prisma 5.9 , Supabase 1.1 
 
-**Past Contributors:**
+## Team
 
-- José Del Rio
-- Matías Exequiel Cecci
+**Lead:** Nuno Rodrigues
+**Frontend:** Nuno Rodrigues, Diego Casermeiro Gálvez, and Ben Alexander
+**Backend:** Rui Silva, and Enrique Ibarra
+**Data Science:** Gonzalo Cagigao Bravo
 
-***************************
+**Past contributors: José Del Rio, and Matías Exequiel Cecci
 
-## Stack:
+## Version History
 
-**Front End:** TypeScript, Next.js 14, Tailwind CSS, and Daisy UI  
-**Back end:** Prisma, and Supabase
