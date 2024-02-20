@@ -1,10 +1,9 @@
-import React, { FC } from "react";
 import BackgroundImage from "./sub-components/background-image";
 import HeadingHomepage from "./sub-components/heading-homepage";
 import TaglineHomepage from "./sub-components/tagline-homepage";
 import SummaryHomepage from "./sub-components/summary-homepage";
 
-const HeroHomepage: FC = () => {
+const HeroHomepage = () => {
   return (
     <div className="">
       <div>

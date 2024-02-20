@@ -1,8 +1,7 @@
-import React, { FC } from "react";
-import LogoComponent from "@/components/ui/logo-component/logo-component";
+import LogoComponent from "@/frontend/components/ui/logo-component/logo-component";
 import Link from "next/link";
 
-const HeaderHomepage: FC = () => {
+const HeaderHomepage = () => {
   return (
     <div className="absolute top-0 w-full text-fuchsia-800">
       <div className="flex justify-center">

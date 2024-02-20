@@ -1,7 +1,6 @@
-import React, { FC } from "react";
-import { BasicComponentPropType } from "@/types/types";
+import { BasicComponentProps } from "@/types/types";
 
-const XIcon: FC<BasicComponentPropType> = ({ scale = 1, color = "currentColor" }) => {
+const XIcon = ({ scale = 1, color = "currentColor" }: BasicComponentProps) => {
   return (
     <svg
       width={24 * scale}

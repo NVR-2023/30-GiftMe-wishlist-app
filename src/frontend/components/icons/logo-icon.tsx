@@ -1,7 +1,6 @@
-import React, { FC } from "react";
-import { BasicComponentPropType } from "@/types/types";
+import { BasicComponentProps } from "@/types/types";
 
-const LogoIcon: React.FC<BasicComponentPropType> = ({ scale = 1, color = "currentColor" }) => {
+const LogoIcon = ({ scale = 1, color = "currentColor" }: BasicComponentProps) => {
   return (
     <svg
       version="1.0"

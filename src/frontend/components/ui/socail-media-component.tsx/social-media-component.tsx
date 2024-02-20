@@ -1,9 +1,8 @@
-import React, { FC } from "react";
-import XIcon from "@/components/icons/x-icon";
-import FacebookIcon from "@/components/icons/facebook-icon";
-import LinkedinIcon from "@/components/icons/linkedin-icon";
+import XIcon from "@/frontend/components/icons/x-icon";
+import FacebookIcon from "@/frontend/components/icons/facebook-icon";
+import LinkedinIcon from "@/frontend/components/icons/linkedin-icon";
 
-const SocialMediaComponent: FC = () => {
+const SocialMediaComponent = () => {
   return (
     <div className="flex space-x-3">
       <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer">

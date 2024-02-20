@@ -1,6 +1,5 @@
-import React, { FC } from "react";
-import { BasicComponentPropType } from "@/types/types";
-const LinkedinIcon: FC<BasicComponentPropType> = ({ scale = 1, color = "currentColor" }) => {
+import { BasicComponentProps } from "@/types/types";
+const LinkedinIcon = ({ scale = 1, color = "currentColor" }: BasicComponentProps) => {
   return (
     <svg
       width={24 * scale}

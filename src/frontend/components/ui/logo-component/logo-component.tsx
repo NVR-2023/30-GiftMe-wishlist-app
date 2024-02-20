@@ -1,8 +1,7 @@
-import React, { FC } from "react";
 import Link from "next/link";
-import LogoIcon from "@/components/icons/logo-icon";
+import LogoIcon from "@/frontend/components/icons/logo-icon";
 
-const LogoComponent: FC = () => {
+const LogoComponent = () => {
   return (
     <Link href="/">
       <LogoIcon scale={0.45} color={"#86198f"} />

@@ -1,9 +1,9 @@
-export type BasicComponentPropType = {
+export type BasicComponentProps = {
   scale?: number;
   color?: string;
 };
 
-export type BasicStyleComponentType = {
+export type BasicStyleComponentProps = {
   background?: string;
   text?: string;
 };

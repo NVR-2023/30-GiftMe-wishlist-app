@@ -1,7 +1,6 @@
-import React, { FC } from "react";
 import Image from "next/image";
 
-const BackgroundImage: FC = () => {
+const BackgroundImage = () => {
   return (
     <div className="w-screen h-screen">
       <Image
