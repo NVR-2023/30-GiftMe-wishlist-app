@@ -44,34 +44,42 @@ function createUserProfile() {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    _a.trys.push([0, 2, 3, 5]);
-                    user = console.log('Starting user creation process...');
+                    _a.trys.push([0, 3, 4, 6]);
+                    // await prisma.userProfile.deleteMany();
+                    console.log('Starting user creation process...');
                     return [4 /*yield*/, prisma.userProfile.create({
                             data: {
                                 name: 'John',
                                 surname: 'Doe',
-                                avatarImage: 'avatar.jpg', // Example value for avatarImage (optional field)
-                                email: 'john@example.com',
-                                password: 'hashedPassword123', // Example value for password
-                                phone: '+1234567890', // Example value for phone (optional field)
-                                birthDate: new Date('1990-01-01'), // Example value for birthDate (optional field)
+                                avatarImage: 'avatar.jpg',
+                                email: 'john_doe@example.com',
+                                password: '12345678',
+                                phone: '+1234567890',
+                                birthDate: new Date('1990-01-01'),
                                 address: '123 Main St',
-                                role: 'BASIC', // Example value for role
+                                role: 'BASIC',
                             },
                         })];
                 case 1:
                     _a.sent();
-                    console.log('User created:', user);
-                    return [3 /*break*/, 5];
+                    return [4 /*yield*/, prisma.userProfile.findUnique({
+                            where: {
+                                email: 'john_doe@example.com',
+                            },
+                        })];
                 case 2:
+                    user = _a.sent();
+                    console.log('User created:', user);
+                    return [3 /*break*/, 6];
+                case 3:
                     error_1 = _a.sent();
                     console.error('Error creating user:', error_1);
-                    return [3 /*break*/, 5];
-                case 3: return [4 /*yield*/, prisma.$disconnect()];
-                case 4:
+                    return [3 /*break*/, 6];
+                case 4: return [4 /*yield*/, prisma.$disconnect()];
+                case 5:
                     _a.sent();
                     return [7 /*endfinally*/];
-                case 5: return [2 /*return*/];
+                case 6: return [2 /*return*/];
             }
         });
     });

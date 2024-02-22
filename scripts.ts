@@ -5,19 +5,23 @@ async function createUserProfile() {
   try {
     // await prisma.userProfile.deleteMany();
 
-    const user =
-      console.log('Starting user creation process...');
+    console.log('Starting user creation process...');
     await prisma.userProfile.create({
       data: {
-        name: 'Jack',
-        surname: 'Black',
+        name: 'John',
+        surname: 'Doe',
         avatarImage: 'avatar.jpg', 
-        email: 'jack@example.com',
-        password: 'hashedPassword123', 
+        email: 'john_doe@example.com',
+        password: '12345678', 
         phone: '+1234567890', 
         birthDate: new Date('1990-01-01'), 
         address: '123 Main St',
         role: 'BASIC', 
+      },
+    });
+    const user = await prisma.userProfile.findUnique({
+      where: {
+        email: 'john_doe@example.com',
       },
     });
     console.log('User created:', user);
@@ -30,3 +34,4 @@ async function createUserProfile() {
 }
 
 createUserProfile();
+
