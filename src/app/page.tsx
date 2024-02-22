@@ -1,6 +1,5 @@
 import Image from "next/image";
-import Users from "../components/userSeed";
-
+// import Users from "../components/userSeed";
 
 export default function Home() {
   return (
@@ -22,7 +21,8 @@ export default function Home() {
         <span>DaisyUI connected</span>
       </div>
       <p>GiftMe App under development</p>
-      <Users />
+      {/* <Users /> */}
+    
 
     </main>
   );
