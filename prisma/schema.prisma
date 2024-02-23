@@ -12,16 +12,17 @@ datasource db {
 }
 
 model UserProfile {
-  userId      Int      @id @default(autoincrement())
+  userId      String    @id @default(uuid())
   name        String
   surname     String
   avatarImage String?
-  email       String   @unique
+  email       String    @unique
   password    String
   phone       String?
-  birthDate   DateTime
+  birthDate   DateTime?
   address     String
-  createdAt   DateTime @default(now())
+  createdAt   DateTime  @default(now())
+  role        Role      @default(BASIC)
 
   groups            UserGroup[]
   wishlists         WishList[]
@@ -34,7 +35,7 @@ model UserProfile {
 }
 
 model GroupList {
-  groupId Int    @id @default(autoincrement())
+  groupId String @id @default(uuid())
   name    String
 
   users          UserGroup[]
@@ -43,22 +44,22 @@ model GroupList {
 }
 
 model UserGroup {
-  id    Int         @id @default(autoincrement())
+  id    String      @id @default(uuid())
   user  UserProfile @relation(fields: [userId], references: [userId])
   group GroupList   @relation(fields: [groupId], references: [groupId])
 
-  userId  Int
-  groupId Int
+  userId  String
+  groupId String
 
   @@unique([userId, groupId])
 }
 
 model WishList {
-  wishlistId Int         @id @default(autoincrement())
+  wishlistId String      @id @default(uuid())
   name       String      @unique
   creator    UserProfile @relation("WishListCreator", fields: [userId], references: [userId], onDelete: Cascade)
   isActive   Boolean     @default(true)
-  userId     Int
+  userId     String
 
   userWishlists UserWishlist[]
   groups        GroupWishList[]
@@ -68,12 +69,12 @@ model WishList {
 }
 
 model UserWishlist {
-  id       Int         @id @default(autoincrement())
+  id       String      @id @default(uuid())
   user     UserProfile @relation(fields: [userId], references: [userId])
   wishlist WishList    @relation(fields: [wishlistId], references: [wishlistId])
 
-  userId     Int
-  wishlistId Int
+  userId     String
+  wishlistId String
 
   // Indica si el usuario es el creador de la lista o el receptor
   isCreator  Boolean
@@ -83,30 +84,30 @@ model UserWishlist {
 }
 
 model GroupWishList {
-  id         Int       @id @default(autoincrement())
+  id         String    @id @default(uuid())
   group      GroupList @relation(fields: [groupId], references: [groupId], onDelete: Cascade)
   wishlist   WishList  @relation(fields: [wishlistId], references: [wishlistId], onDelete: Cascade)
-  groupId    Int
-  wishlistId Int
+  groupId    String
+  wishlistId String
 
   @@unique([groupId, wishlistId])
 }
 
 model ReservedGift {
-  id           Int      @id @default(autoincrement())
+  id           String   @id @default(uuid())
   reservedDate DateTime @default(now())
   isPurchased  Boolean  @default(false)
   gift         Gift     @relation(fields: [giftId], references: [giftId], onDelete: Cascade)
-  giftId       Int
+  giftId       String
 
   reservedBy   UserProfile @relation(fields: [reservedById], references: [userId])
-  reservedById Int
+  reservedById String
 
   @@unique([giftId], name: "unique_reserved_gift")
 }
 
 model Gift {
-  giftId          Int       @id @default(autoincrement())
+  giftId          String    @id @default(uuid())
   name            String
   category        String
   giftImage       String?
@@ -122,9 +123,9 @@ model Gift {
   maxDeliverDate  DateTime?
   registerDate    DateTime  @default(now())
 
-  receiverId Int
-  wishlistId Int
-  groupId    Int?
+  receiverId String
+  wishlistId String
+  groupId    String?
 
   wishlist      WishList       @relation(fields: [wishlistId], references: [wishlistId], onDelete: Cascade)
   group         GroupList?     @relation(fields: [groupId], references: [groupId])
@@ -133,7 +134,7 @@ model Gift {
 }
 
 model Notification {
-  id                Int                @id @default(autoincrement())
+  id                String             @id @default(uuid())
   title             String
   description       String?
   isRead            Boolean            @default(false)
@@ -141,9 +142,14 @@ model Notification {
 }
 
 model UserNotification {
-  id             Int          @id @default(autoincrement())
+  id             String       @id @default(uuid())
   user           UserProfile  @relation(fields: [userId], references: [userId])
-  userId         Int
+  userId         String
   notification   Notification @relation(fields: [notificationId], references: [id], onDelete: Cascade)
-  notificationId Int
+  notificationId String
+}
+
+enum Role {
+  BASIC
+  ADMIN
 }
