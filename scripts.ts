@@ -5,7 +5,8 @@ async function createUserProfile() {
   try {
     // await prisma.userProfile.deleteMany();
 
-    console.log('Starting user creation process...');
+    console.log('Starting user creation process...'); 
+
     await prisma.userProfile.create({
       data: {
         name: 'John',
