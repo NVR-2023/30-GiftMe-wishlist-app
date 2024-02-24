@@ -1,5 +1,5 @@
 "use client";
-import { useState, ChangeEvent } from "react";
+import { useState, ChangeEvent, FormEvent } from "react";
 import Link from "next/link";
 import BasicBox from "@/frontend/components/ui/basic-box/basic-box";
 import PasswordInvisibleIcon from "@/frontend/components/icons/password-invisible-icon";
@@ -18,7 +18,7 @@ const SigninForm = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
   const [ errors , setErrors ] = useState({
     email: "abc",
-    password: "def"
+    password: "123"
 
   })
   const handleTogglePasswordVisibility = () => {
@@ -33,10 +33,16 @@ const SigninForm = () => {
     }));
   };
 
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    alert(`email: ${credentials.email} password: ${credentials.password}`);
+  };
+
   return (
     <div className="">
       <BasicBox background={"bg-yellow-200"}>
-        <form className="flex flex-col space-y-3">
+        <form className="flex flex-col space-y-3" onSubmit={handleSubmit}>
           <div className="font-bold text-xl ">Sign in</div>
           <div className="flex flex-col">
             <div className="flex flex-col">
@@ -49,7 +55,12 @@ const SigninForm = () => {
                 name="email"
                 value={credentials.email}
                 onChange={handleOnChange}></input>
-              <div className="invisible">Error Message</div>
+              <div
+                className={`${
+                  errors.email ? "visible" : "invisible"
+                } text-xs text-red-500 font-semibold mt-1 mb-3 `}>
+                {errors.email}
+              </div>
             </div>
             <div className="flex flex-col">
               <div className="flex justify-between">
@@ -68,7 +79,12 @@ const SigninForm = () => {
                 value={credentials.password}
                 onChange={handleOnChange}></input>
             </div>
-            <div className="invisible">Error message</div>
+            <div
+              className={`${
+                errors.password ? "visible" : "invisible"
+              } text-xs text-red-500 font-semibold mt-1 mb-3`}>
+              {errors.password}
+            </div>
           </div>
           <div className="flex items-baseline ">
             <div className="text-[0.6rem] font-semibold">Sign in with</div>
@@ -84,10 +100,18 @@ const SigninForm = () => {
           <div className="text-[0.6rem] font-semibold">Forgot password?</div>
           <div className="flex space-x-3">
             <BasicButton size={"sm"}>
-              <Link href="/" className="font-semibold w-full h-full flex items-center justify-center">Cancel</Link>
+              <Link
+                href="/"
+                className="font-semibold w-full h-full flex items-center justify-center">
+                Cancel
+              </Link>
             </BasicButton>
             <BasicButton size={"lg"} variant={"full"}>
-              <button className="font-semibold w-full h-full items-center flex justify-center">Sign in</button>
+              <button
+                type="submit"
+                className="font-semibold w-full h-full items-center flex justify-center">
+                Sign in
+              </button>
             </BasicButton>
           </div>
         </form>
