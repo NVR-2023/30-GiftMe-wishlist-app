@@ -16,7 +16,7 @@ type Credentials = {
 const SigninForm = () => {
   const [credentials, setCredentials] = useState<Credentials>({ email: "", password: "" });
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
-  const [errors, setErrors] = useState({
+  const [credentialsErrors, setCredentialsErrors] = useState({
     email: "abc",
     password: "123",
   });
@@ -36,45 +36,51 @@ const SigninForm = () => {
     event.preventDefault();
 
     type Error = {
-      regEx: string;
+      regEx: RegExp;
       message: string;
     };
 
     type CredentialErrors = Error[];
 
     const emailErrors: CredentialErrors = [
-      { regEx: "/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$/", 
-      message: "Invalid email" },
       {
-        regEx: "^.{6,254}$",
-        message: "Email length",
+        regEx: /^.{6,}$/,
+        message: "Email too short",
       },
+
+      { regEx: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, message: "Invalid email" },
     ];
 
     const passwordErrors: CredentialErrors = [
-      { regEx: "^.{8,}$",
-       message: "Password too short" },
-      {
-        regEx: "^(?=.*[A-Z]).{8,}$",
-        message: "At least oen uppercase letter",
-        // Not offering details for security reasons - Password must contain at least one uppercase
-      },
-      {
-        regEx: "^(?=.*[a-z]).{8,}$",
-        message: "At least one lowercase letter",
-        // Not offering details for security reasons - Password must contain at least one lowercase
-      },
-      {
-        regEx: "^(?=.*\d).{8,}$",
-        message: "At least oen digit",
-        // Not offering details for security reasons - Password must contain at least one digit
-      },
-     
-      
-
+      { regEx: /^.{8,}$/, message: "Password too short" },
+      { regEx: /^(?=.*[A-Z]).{8,}$/, message: "At least one uppercase letter" },
+      { regEx: /^(?=.*[a-z]).{8,}$/, message: "At least one lowercase letter" },
+      { regEx: /^(?=.*\d).{8,}$/, message: "At least one digit" },
     ];
 
-    alert(`email: ${credentials.email} password: ${credentials.password}`);
+    let emailFirstError: string = "";
+    let passwordFirstError: string = "";
+
+    for (const { regEx, message } of emailErrors) {
+      if (!regEx.test(credentials.email)) {
+        emailFirstError = message;
+        break;
+      }
+    }
+
+    for (const { regEx, message } of passwordErrors) {
+      if (!regEx.test(credentials.password)) {
+        passwordFirstError = message;
+        break;
+      }
+    }
+
+    // Replace alert with API call for sign in
+    if (!emailFirstError && !passwordFirstError) {
+      alert("Credentials validated");
+    } else {
+      setCredentialsErrors({ email: emailFirstError, password: passwordFirstError });
+    }
   };
 
   return (
@@ -88,16 +94,16 @@ const SigninForm = () => {
                 Email
               </label>
               <input
-                className="rounded bg-yellow-100 h-9"
+                className="rounded bg-yellow-100 h-9 ps-2"
                 id="email"
                 name="email"
                 value={credentials.email}
                 onChange={handleOnChange}></input>
               <div
                 className={`${
-                  errors.email ? "visible" : "invisible"
-                } text-xs text-red-500 font-semibold mt-1 mb-3 `}>
-                {errors.email}
+                  credentialsErrors.email ? "visible" : "invisible"
+                } h-[1rem] overflow-hidden text-xs text-red-500 font-semibold mt-1 mb-3 `}>
+                {credentialsErrors.email}
               </div>
             </div>
             <div className="flex flex-col">
@@ -110,7 +116,7 @@ const SigninForm = () => {
                 </span>
               </div>
               <input
-                className="rounded bg-yellow-100 h-9"
+                className="rounded bg-yellow-100 h-9 ps-2"
                 id="password"
                 name="password"
                 type={isPasswordVisible ? "text" : "password"}
@@ -119,9 +125,9 @@ const SigninForm = () => {
             </div>
             <div
               className={`${
-                errors.password ? "visible" : "invisible"
-              } text-xs text-red-500 font-semibold mt-1 mb-3`}>
-              {errors.password}
+                credentialsErrors.password ? "visible" : "invisible"
+              } h-[1rem] overflow-hidden text-xs text-red-500 font-semibold mt-1 mb-3`}>
+              {credentialsErrors.password}
             </div>
           </div>
           <div className="flex items-baseline ">
@@ -136,7 +142,7 @@ const SigninForm = () => {
             </div>
           </div>
           <div className="text-[0.6rem] font-semibold">Forgot password?</div>
-          <div className="flex space-x-3">
+          <div className="flex pt-4 space-x-3">
             <BasicButton size={"sm"}>
               <Link
                 href="/"
