@@ -80,6 +80,7 @@ const SigninForm = () => {
     // Replace alert with API call for sign in
     if (!emailFirstError && !passwordFirstError) {
       alert("Credentials validated");
+      setCredentialsErrors({ email: "", password: "" });
     } else {
       setCredentialsErrors({ email: emailFirstError, password: passwordFirstError });
     }
