@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode } from "react";
 
 export type BasicComponentProps = {
   scale?: number;
@@ -10,6 +10,6 @@ export type BasicStyleComponentProps = {
   text?: string;
 };
 
-export type BasicChildrenProp = {
+export type BasicChildrenProps = {
   children: ReactNode;
 };

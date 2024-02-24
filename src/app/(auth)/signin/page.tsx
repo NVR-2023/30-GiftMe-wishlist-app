@@ -4,7 +4,7 @@ import SigninForm from "./sub-components/ssignin-form";
 const SignIn = () => {
   return (
     <div>
-      <div className="w-screen h-screen flex justify-center items-center bg-green-400">
+      <div className="w-screen h-screen flex justify-center items-center bg-orange-100">
         <SigninForm />
       </div>
       <div>

@@ -4,19 +4,11 @@ const SigninForm = () => {
 return (
 
     <div className="">
-      <BasicBox>
-        <div>
-          sdfdsfdsfds
+      <BasicBox background={"bg-blue-400"}>
+       <div className="">
+        sdsadsadsad
         </div>
-        <div>
-          sdfdsfdsfds
-        </div>
-        <div>
-          sdfdsfdsfds
-        </div>
-        <div>
-          sdfdsfdsfds
-        </div>
+       
       </BasicBox>
     </div>
 );
