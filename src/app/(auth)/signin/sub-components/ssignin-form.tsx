@@ -1,18 +1,32 @@
-"use client"
-import { useState } from "react";
+"use client";
+import { useState, ChangeEvent } from "react";
 import BasicBox from "@/frontend/components/ui/basic-box/basic-box";
 import PasswordInvisibleIcon from "@/frontend/components/icons/password-invisible-icon";
 import PasswordVisibleIcon from "@/frontend/components/icons/password-visible-icon";
+import GoogleIcon from "@/frontend/components/icons/google-icon";
+import FacebookIcon from "@/frontend/components/icons/facebook-icon";
 
 import BasicButton from "@/frontend/components/ui/basic-button/basic-button";
 
+type Credentials = {
+  email: string;
+  password: string;
+};
 const SigninForm = () => {
+  const [credentials, setCredentials] = useState<Credentials>({ email: "", password: "" });
+  const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
 
-  const [ isPasswordVisible , setIsPasswordVisible ] = useState<boolean>(false)
-
-  const handleTogglePasswordVisibility= () => {
+  const handleTogglePasswordVisibility = () => {
     setIsPasswordVisible((current) => !current);
-  }
+  };
+
+  const handleOnChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setCredentials((current) => ({
+      ...current,
+      [name]: value,
+    }));
+  };
 
   return (
     <div className="">
@@ -24,7 +38,12 @@ const SigninForm = () => {
               <label htmlFor="email" className="text-sm font-semibold">
                 Email
               </label>
-              <input className="rounded bg-yellow-100" id="email" name="email"></input>
+              <input
+                className="rounded bg-yellow-100"
+                id="email"
+                name="email"
+                value={credentials.email}
+                onChange={handleOnChange}></input>
               <div className="invisible">Error Message</div>
             </div>
             <div className="flex flex-col">
@@ -33,21 +52,31 @@ const SigninForm = () => {
                   Password
                 </label>
                 <span onClick={handleTogglePasswordVisibility}>
-                  { isPasswordVisible ? <PasswordVisibleIcon/> : <PasswordInvisibleIcon/> }
-                  </span>
+                  {isPasswordVisible ? <PasswordVisibleIcon /> : <PasswordInvisibleIcon />}
+                </span>
               </div>
-              <input className="rounded bg-yellow-100" id="password" name="password"></input>
+              <input
+                className="rounded bg-yellow-100"
+                id="password"
+                name="password"
+                type={isPasswordVisible ? "text" : "password"}
+                value={credentials.password}
+                onChange={handleOnChange}></input>
             </div>
             <div className="invisible">Error message</div>
           </div>
           <div className="flex items-baseline ">
-            <div className="text-[0.75rem] font-semibold">Sign in with</div>
-            <div className="flex">
-              <div className="">G</div>
-              <div className="">F</div>
+            <div className="text-[0.6rem] font-semibold">Sign in with</div>
+            <div className="flex ms-3 space-x-3">
+              <div className="">
+                <GoogleIcon scale={0.36} />
+              </div>
+              <div className="">
+                <FacebookIcon scale={0.75} />
+              </div>
             </div>
           </div>
-          <div className="text-[0.75rem] font-semibold">Forget password?</div>
+          <div className="text-[0.6rem] font-semibold">Forget password?</div>
           <div className="flex justify-between">
             <BasicButton>
               <button className="font-semibold">Cancel</button>
