@@ -3,7 +3,9 @@ import SigninForm from "./sub-components/ssignin-form";
 
 const SignIn = () => {
   return (
-    <div>
+    <div
+      className=""
+      >
       <div className="w-screen h-screen flex justify-center items-center">
         <SigninForm />
       </div>

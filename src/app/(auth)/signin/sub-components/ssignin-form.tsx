@@ -1,5 +1,6 @@
 "use client";
 import { useState, ChangeEvent } from "react";
+import Link from "next/link";
 import BasicBox from "@/frontend/components/ui/basic-box/basic-box";
 import PasswordInvisibleIcon from "@/frontend/components/icons/password-invisible-icon";
 import PasswordVisibleIcon from "@/frontend/components/icons/password-visible-icon";
@@ -15,7 +16,11 @@ type Credentials = {
 const SigninForm = () => {
   const [credentials, setCredentials] = useState<Credentials>({ email: "", password: "" });
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
+  const [ errors , setErrors ] = useState({
+    email: "abc",
+    password: "def"
 
+  })
   const handleTogglePasswordVisibility = () => {
     setIsPasswordVisible((current) => !current);
   };
@@ -31,7 +36,7 @@ const SigninForm = () => {
   return (
     <div className="">
       <BasicBox background={"bg-yellow-200"}>
-        <div className="flex flex-col space-y-3">
+        <form className="flex flex-col space-y-3">
           <div className="font-bold text-xl ">Sign in</div>
           <div className="flex flex-col">
             <div className="flex flex-col">
@@ -39,7 +44,7 @@ const SigninForm = () => {
                 Email
               </label>
               <input
-                className="rounded bg-yellow-100"
+                className="rounded bg-yellow-100 h-9"
                 id="email"
                 name="email"
                 value={credentials.email}
@@ -56,7 +61,7 @@ const SigninForm = () => {
                 </span>
               </div>
               <input
-                className="rounded bg-yellow-100"
+                className="rounded bg-yellow-100 h-9"
                 id="password"
                 name="password"
                 type={isPasswordVisible ? "text" : "password"}
@@ -76,16 +81,16 @@ const SigninForm = () => {
               </div>
             </div>
           </div>
-          <div className="text-[0.6rem] font-semibold">Forget password?</div>
-          <div className="flex justify-between">
-            <BasicButton>
-              <button className="font-semibold">Cancel</button>
+          <div className="text-[0.6rem] font-semibold">Forgot password?</div>
+          <div className="flex space-x-3">
+            <BasicButton size={"sm"}>
+              <Link href="/" className="font-semibold w-full h-full flex items-center justify-center">Cancel</Link>
             </BasicButton>
-            <BasicButton>
-              <button className="font-semibold">Sign in</button>
+            <BasicButton size={"lg"} variant={"full"}>
+              <button className="font-semibold w-full h-full items-center flex justify-center">Sign in</button>
             </BasicButton>
           </div>
-        </div>
+        </form>
       </BasicBox>
     </div>
   );
