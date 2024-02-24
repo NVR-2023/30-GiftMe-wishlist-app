@@ -17,8 +17,8 @@ const SigninForm = () => {
   const [credentials, setCredentials] = useState<Credentials>({ email: "", password: "" });
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
   const [credentialsErrors, setCredentialsErrors] = useState({
-    email: "abc",
-    password: "123",
+    email: "",
+    password: "",
   });
   const handleTogglePasswordVisibility = () => {
     setIsPasswordVisible((current) => !current);
@@ -43,6 +43,7 @@ const SigninForm = () => {
     type CredentialErrors = Error[];
 
     const emailErrors: CredentialErrors = [
+      { regEx: /^.+$/, message: "Email required" },
       {
         regEx: /^.{6,}$/,
         message: "Email too short",
@@ -52,6 +53,7 @@ const SigninForm = () => {
     ];
 
     const passwordErrors: CredentialErrors = [
+      { regEx: /^.+$/, message: "Password required" },
       { regEx: /^.{8,}$/, message: "Password too short" },
       { regEx: /^(?=.*[A-Z]).{8,}$/, message: "At least one uppercase letter" },
       { regEx: /^(?=.*[a-z]).{8,}$/, message: "At least one lowercase letter" },
@@ -102,7 +104,7 @@ const SigninForm = () => {
               <div
                 className={`${
                   credentialsErrors.email ? "visible" : "invisible"
-                } h-[1rem] overflow-hidden text-xs text-red-500 font-semibold mt-1 mb-3 `}>
+                } h-[1rem] overflow-hidden text-[0.6rem] text-red-500 font-semibold mt-1 mb-3 `}>
                 {credentialsErrors.email}
               </div>
             </div>
@@ -126,7 +128,7 @@ const SigninForm = () => {
             <div
               className={`${
                 credentialsErrors.password ? "visible" : "invisible"
-              } h-[1rem] overflow-hidden text-xs text-red-500 font-semibold mt-1 mb-3`}>
+              } h-[1rem] overflow-hidden text-[0.6rem] text-red-500 font-semibold mt-1 mb-3`}>
               {credentialsErrors.password}
             </div>
           </div>
