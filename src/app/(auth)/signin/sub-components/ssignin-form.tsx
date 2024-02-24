@@ -16,11 +16,10 @@ type Credentials = {
 const SigninForm = () => {
   const [credentials, setCredentials] = useState<Credentials>({ email: "", password: "" });
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
-  const [ errors , setErrors ] = useState({
+  const [errors, setErrors] = useState({
     email: "abc",
-    password: "123"
-
-  })
+    password: "123",
+  });
   const handleTogglePasswordVisibility = () => {
     setIsPasswordVisible((current) => !current);
   };
@@ -35,6 +34,45 @@ const SigninForm = () => {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    type Error = {
+      regEx: string;
+      message: string;
+    };
+
+    type CredentialErrors = Error[];
+
+    const emailErrors: CredentialErrors = [
+      { regEx: "/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$/", 
+      message: "Invalid email" },
+      {
+        regEx: "^.{6,254}$",
+        message: "Email length",
+      },
+    ];
+
+    const passwordErrors: CredentialErrors = [
+      { regEx: "^.{8,}$",
+       message: "Password too short" },
+      {
+        regEx: "^(?=.*[A-Z]).{8,}$",
+        message: "At least oen uppercase letter",
+        // Not offering details for security reasons - Password must contain at least one uppercase
+      },
+      {
+        regEx: "^(?=.*[a-z]).{8,}$",
+        message: "At least one lowercase letter",
+        // Not offering details for security reasons - Password must contain at least one lowercase
+      },
+      {
+        regEx: "^(?=.*\d).{8,}$",
+        message: "At least oen digit",
+        // Not offering details for security reasons - Password must contain at least one digit
+      },
+     
+      
+
+    ];
 
     alert(`email: ${credentials.email} password: ${credentials.password}`);
   };
