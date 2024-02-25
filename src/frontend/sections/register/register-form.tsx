@@ -66,9 +66,12 @@ const RegisterForm = () => {
       }
     }
 
-    checkboxFirstError = !credentials.checkbox
-      ? "You need to read and accept the Terms and conditions"
-      : "";
+    checkboxFirstError = "";
+
+    // Validate checkbox
+    if (!credentials.checkbox) {
+      checkboxFirstError = "You need to read and accept the Terms and Conditions";
+    }
 
     // Replace alert with API call for sign in
     if (!emailFirstError && !passwordFirstError && !checkboxFirstError) {
@@ -157,8 +160,8 @@ const RegisterForm = () => {
           </div>
           <div
             className={`${
-              credentialsErrors.email ? "visible" : "invisible"
-            } h-[.75rem] text-[0.6rem] text-red-500 font-semibold mb-4 `}>
+              credentialsErrors.checkbox ? "visible" : "invisible"
+            } h-[.75rem] text-[0.6rem] text-red-500 font-semibold mb-4`}>
             {credentialsErrors.checkbox}
           </div>
         </div>
