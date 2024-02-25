@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const NavbarHomepage = () => {
   return (
-    <header className="absolute top-4 w-full text-fuchsia-800">
+    <header className="absolute top-4 w-full text-purple-700">
       <nav className="flex justify-center">
         <div className="flex w-11/12 justify-between items-center h-120">
           <div>

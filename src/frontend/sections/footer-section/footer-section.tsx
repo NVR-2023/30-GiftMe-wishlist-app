@@ -10,33 +10,33 @@ const FooterSection = ({
   return (
     <footer className={`footer ps-20 py-10 text-sm ${background} ${text}`}>
       <nav className="">
-        <h3 className="footer-title">Social Media</h3>
+        <h3 className="footer-title text-sm">Social Media</h3>
         <SocialMediaComponent />
       </nav>
       <nav>
-        <h3 className="footer-title">Company</h3>
-        <Link href="/aboutus" className="link link-hover">
+        <h3 className="footer-title text-sm">Company</h3>
+        <Link href="/aboutus" className="link link-hover text-sm">
           About us
         </Link>
-        <Link href="/contact" className="link link-hover">
+        <Link href="/contact" className="link link-hover text-sm">
           Contact
         </Link>
-        <Link href="/jobs" className="link link-hover">
+        <Link href="/jobs" className="link link-hover text-sm">
           Jobs
         </Link>
-        <Link href="/presskit" className="link link-hover">
+        <Link href="/presskit" className="link link-hover text-sm">
           Press Kit
         </Link>
       </nav>
       <nav>
-        <h3 className="footer-title">Legal</h3>
-        <Link href="/termsofuse" className="link link-hover">
+        <h3 className="footer-title text-sm">Legal</h3>
+        <Link href="/termsofuse" className="link link-hover text-sm">
           Terms of use
         </Link>
-        <Link href="/privacypolicy" className="link link-hover">
+        <Link href="/privacypolicy" className="link link-hover text-sm">
           Privacy policy
         </Link>
-        <Link href="/cookiepolicy" className="link link-hover">
+        <Link href="/cookiepolicy" className="link link-hover text-sm">
           Cookie policy
         </Link>
         <br></br>
