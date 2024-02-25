@@ -1,4 +1,5 @@
 "use client";
+
 import { useState, ChangeEvent, FormEvent } from "react";
 import Link from "next/link";
 import BasicBox from "@/frontend/components/ui/basic-box/basic-box";

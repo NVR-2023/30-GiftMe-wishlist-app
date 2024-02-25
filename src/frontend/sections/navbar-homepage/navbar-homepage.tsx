@@ -1,13 +1,13 @@
-import LogoComponent from "@/frontend/components/ui/logo-component/logo-component";
+import NeoLogoComponent from "@/frontend/components/ui/neo-logo-component";
 import Link from "next/link";
 
-const HeaderHomepage = () => {
+const NavbarHomepage = () => {
   return (
-    <div className="absolute top-0 w-full text-fuchsia-800">
-      <div className="flex justify-center">
+    <header className="absolute top-4 w-full text-fuchsia-800">
+      <nav className="flex justify-center">
         <div className="flex w-11/12 justify-between items-center h-120">
           <div>
-            <LogoComponent />
+            <NeoLogoComponent />
           </div>
           <div className="flex space-x-12">
             <div className="space-x-4">
@@ -31,9 +31,9 @@ const HeaderHomepage = () => {
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      </nav>
+    </header>
   );
 };
 
-export default HeaderHomepage;
+export default NavbarHomepage;

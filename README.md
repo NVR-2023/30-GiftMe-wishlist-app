@@ -13,10 +13,16 @@ BackEnd: Prisma 5.9 , Supabase 1.1
 
 ## Team
 
-**Lead:** Nuno Rodrigues  
-**Frontend:** Nuno Rodrigues, Diego Casermeiro Gálvez, and Ben Alexander  
-**Backend:** Rui Silva, and Enrique Ibarra  
-**Data Science:** Gonzalo Cagigao Bravo  
+**Project Lead:** Nuno Rodrigues  
+**Frontend:** 
+Frontend Lead: Nuno Rodrigues
+Frontend developer: Diego Casermeiro Gálvez  
+**Backend:** 
+Backend Lead: Rui Silva
+Backend developer: Enrique Ibarra  
+**Data Science:** 
+Data Science Lead: Gonzalo Cagigao Bravo  
+Data Science Developer: Carlos E Mijares R
 
 **Past Contributors:** José Del Rio, and Matías Exequiel Cecci 
 
