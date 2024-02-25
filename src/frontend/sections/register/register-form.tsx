@@ -18,6 +18,7 @@ const RegisterForm = () => {
   const [credentialsErrors, setCredentialsErrors] = useState({
     email: "",
     password: "",
+    checkbox: ""
   });
 
   const [isChecked, setIsChecked] = useState(false);
@@ -43,6 +44,7 @@ const RegisterForm = () => {
 
     let emailFirstError: string = "";
     let passwordFirstError: string = "";
+    let checkboxFirstError: string = "";
 
     for (const { regEx, message } of emailErrors) {
       if (!regEx.test(credentials.email)) {
@@ -59,11 +61,11 @@ const RegisterForm = () => {
     }
 
     // Replace alert with API call for sign in
-    if (!emailFirstError && !passwordFirstError) {
+    if (!emailFirstError && !passwordFirstError && !checkboxFirstError) {
       alert("Credentials validated");
-      setCredentialsErrors({ email: "", password: "" });
+      setCredentialsErrors({ email: "", password: "", checkbox: "" });
     } else {
-      setCredentialsErrors({ email: emailFirstError, password: passwordFirstError });
+      setCredentialsErrors({ email: emailFirstError, password: passwordFirstError, checkbox: checkboxFirstError });
     }
   };
 
@@ -121,7 +123,7 @@ const RegisterForm = () => {
               <input
                 type="checkbox"
                 defaultChecked
-                className="mx-0 px-0 ring-0 checkbox checkbox-xs rounded border-[1.5px] bg-yellow-100 border-yellow-100 checked:border-purple-700 [--chkbg:theme(colors.purple.700)]"
+                className=" -translate-x-1.5 mx-0 px-0 ring-0 checkbox checkbox-xs rounded border-[1.5px] bg-yellow-100 border-yellow-100 checked:border-purple-700 [--chkbg:theme(colors.purple.700)]"
               />
             </span>
             <span>
