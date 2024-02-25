@@ -1,5 +1,6 @@
 "use client";
 
+import { emailErrors, passwordErrors } from "./credentials-errors";
 import { useState, ChangeEvent, FormEvent } from "react";
 import Link from "next/link";
 import PasswordInvisibleIcon from "@/frontend/components/icons/password-invisible-icon";
@@ -7,24 +8,25 @@ import PasswordVisibleIcon from "@/frontend/components/icons/password-visible-ic
 import GoogleIcon from "@/frontend/components/icons/google-icon";
 import FacebookIcon from "@/frontend/components/icons/facebook-icon";
 
-import BasicButton from "@/frontend/components/ui/basic-button/basic-button";
-
 type Credentials = {
   email: string;
   password: string;
 };
-const SigninForm = () => {
+const RegisterForm = () => {
   const [credentials, setCredentials] = useState<Credentials>({ email: "", password: "" });
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
   const [credentialsErrors, setCredentialsErrors] = useState({
     email: "",
     password: "",
   });
+
+  const [isChecked, setIsChecked] = useState(false);
+
   const handleTogglePasswordVisibility = () => {
     setIsPasswordVisible((current) => !current);
   };
 
-  const handleOnChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setCredentials((current) => ({
       ...current,
@@ -32,33 +34,12 @@ const SigninForm = () => {
     }));
   };
 
+  const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setIsChecked(event.target.checked);
+  };
+
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    type Error = {
-      regEx: RegExp;
-      message: string;
-    };
-
-    type CredentialErrors = Error[];
-
-    const emailErrors: CredentialErrors = [
-      { regEx: /^.+$/, message: "Email required" },
-      {
-        regEx: /^.{6,}$/,
-        message: "Email too short",
-      },
-
-      { regEx: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, message: "Invalid email" },
-    ];
-
-    const passwordErrors: CredentialErrors = [
-      { regEx: /^.+$/, message: "Password required" },
-      { regEx: /^.{8,}$/, message: "Password too short" },
-      { regEx: /^(?=.*[A-Z]).{8,}$/, message: "At least one uppercase letter" },
-      { regEx: /^(?=.*[a-z]).{8,}$/, message: "At least one lowercase letter" },
-      { regEx: /^(?=.*\d).{8,}$/, message: "At least one digit" },
-    ];
 
     let emailFirstError: string = "";
     let passwordFirstError: string = "";
@@ -89,7 +70,7 @@ const SigninForm = () => {
   return (
     <div className="text-purple-700">
       <form className="flex flex-col space-y-2" onSubmit={handleSubmit}>
-        <div className="font-bold text-2xl mb-4">Sign in</div>
+        <div className="font-bold text-3xl mb-7">Register</div>
         <div className="flex flex-col">
           <label htmlFor="email" className="text-sm font-semibold mb-0.5">
             Email
@@ -99,7 +80,7 @@ const SigninForm = () => {
             id="email"
             name="email"
             value={credentials.email}
-            onChange={handleOnChange}></input>
+            onChange={handleInputChange}></input>
           <div
             className={`${
               credentialsErrors.email ? "visible" : "invisible"
@@ -127,17 +108,40 @@ const SigninForm = () => {
             name="password"
             type={isPasswordVisible ? "text" : "password"}
             value={credentials.password}
-            onChange={handleOnChange}></input>
+            onChange={handleInputChange}></input>
           <div
             className={`${
               credentialsErrors.password ? "visible" : "invisible"
             } h-[.75rem] text-[0.6rem] text-red-500 font-semibold mt-2 mb-4`}>
             {credentialsErrors.password}
           </div>
+
+          <div className="flex items-center px-2">
+            <span>
+              <input
+                type="checkbox"
+                defaultChecked
+                className="mx-0 px-0 ring-0 checkbox checkbox-xs rounded border-[1.5px] bg-yellow-100 border-yellow-100 checked:border-purple-700 [--chkbg:theme(colors.purple.700)]"
+              />
+            </span>
+            <span>
+              <label className="label cursor-pointer space-x-2">
+                <span className="text-[0.6rem] font-semibold">
+                  {`I've read and accept the `}
+                  <Link href="/termsandconditions" className="group">
+                    <span className="border-b-[1px] border-transparent group-hover:border-purple-700 group-hover:text-purple-700">
+                      Terms and Conditions
+                    </span>
+                  </Link>{" "}
+                </span>
+              </label>
+            </span>
+          </div>
         </div>
+
         <div className="flex items-baseline justify-between">
           <div className="flex items-baseline">
-            <div className="text-[0.6rem] font-semibold pe-2">Sign in with</div>
+            <div className="text-[0.6rem] font-semibold pe-2">Register with</div>
             <div className="flex space-x-2">
               <div className="">
                 <GoogleIcon scale={0.36} />
@@ -147,7 +151,6 @@ const SigninForm = () => {
               </div>
             </div>
           </div>
-          <div className="text-[0.6rem] font-semibold">Forgot password?</div>
         </div>
         <div className="flex pt-8 space-x-4">
           <Link
@@ -158,11 +161,11 @@ const SigninForm = () => {
           <button
             type="submit"
             className="w-36 h-8 rounded bg-purple-700 text-orange-400 text-sm tracking-wide">
-            Sign in
+            Register
           </button>
         </div>
       </form>
     </div>
   );
 };
-export default SigninForm;
+export default RegisterForm;
