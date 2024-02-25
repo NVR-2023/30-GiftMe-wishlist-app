@@ -90,45 +90,45 @@ const SigninForm = () => {
     <div className="text-purple-700">
       <form className="flex flex-col space-y-3" onSubmit={handleSubmit}>
         <div className="font-bold text-2xl mb-4">Sign in</div>
-        <div className="flex flex-col space-y-0">
-          <div className="flex flex-col">
-            <label htmlFor="email" className="text-sm font-semibold mb-0.5">
-              Email
+
+        <div className="flex flex-col">
+          <label htmlFor="email" className="text-sm font-semibold mb-0.5">
+            Email
+          </label>
+          <input
+            className="rounded bg-orange-100 h-8 ps-2 focus:outline-none focus:border-purple-700 focus:ring-purple-700 focus:ring-[1px]"
+            id="email"
+            name="email"
+            value={credentials.email}
+            onChange={handleOnChange}></input>
+          <div
+            className={`${
+              credentialsErrors.email ? "visible" : "invisible"
+            } h-[.75rem] text-[0.6rem] text-red-500 font-semibold mt-2 mb-4`}>
+            {credentialsErrors.email}
+          </div>
+        </div>
+
+        <div className="flex flex-col">
+          <div className="flex justify-between mb-0.5">
+            <label htmlFor="email" className="text-sm font-semibold">
+              Password
             </label>
-            <input
-              className="rounded bg-orange-100 h-8 ps-2 focus:outline-none focus:border-purple-700 focus:ring-purple-700 focus:ring-[1px]"
-              id="email"
-              name="email"
-              value={credentials.email}
-              onChange={handleOnChange}></input>
-            <div
-              className={`${
-                credentialsErrors.email ? "visible" : "invisible"
-              } h-[.75rem] text-[0.6rem] text-red-500 font-semibold mt-2 mb-4`}>
-              {credentialsErrors.email}
-            </div>
+            <span onClick={handleTogglePasswordVisibility}>
+              {isPasswordVisible ? (
+                <PasswordVisibleIcon scale={0.75} />
+              ) : (
+                <PasswordInvisibleIcon scale={0.75} />
+              )}
+            </span>
           </div>
-          <div className="flex flex-col">
-            <div className="flex justify-between mb-0.5">
-              <label htmlFor="email" className="text-sm font-semibold">
-                Password
-              </label>
-              <span onClick={handleTogglePasswordVisibility}>
-                {isPasswordVisible ? (
-                  <PasswordVisibleIcon scale={0.75} />
-                ) : (
-                  <PasswordInvisibleIcon scale={0.75} />
-                )}
-              </span>
-            </div>
-            <input
-              className="rounded bg-orange-100 h-8 ps-2 focus:outline-none focus:border-purple-700 focus:ring-purple-700 focus:ring-[1px]"
-              id="password"
-              name="password"
-              type={isPasswordVisible ? "text" : "password"}
-              value={credentials.password}
-              onChange={handleOnChange}></input>
-          </div>
+          <input
+            className="rounded bg-orange-100 h-8 ps-2 focus:outline-none focus:border-purple-700 focus:ring-purple-700 focus:ring-[1px]"
+            id="password"
+            name="password"
+            type={isPasswordVisible ? "text" : "password"}
+            value={credentials.password}
+            onChange={handleOnChange}></input>
           <div
             className={`${
               credentialsErrors.password ? "visible" : "invisible"
