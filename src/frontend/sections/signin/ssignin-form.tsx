@@ -1,13 +1,12 @@
 "use client";
 
-import { emailErrors , passwordErrors } from "../register/credentials-errors";
+import { emailErrors, passwordErrors } from "../register/sub-components/credentials-errors";
 import { useState, ChangeEvent, FormEvent } from "react";
 import Link from "next/link";
 import PasswordInvisibleIcon from "@/frontend/components/icons/password-invisible-icon";
 import PasswordVisibleIcon from "@/frontend/components/icons/password-visible-icon";
 import GoogleIcon from "@/frontend/components/icons/google-icon";
 import FacebookIcon from "@/frontend/components/icons/facebook-icon";
-
 
 type Credentials = {
   email: string;
@@ -34,7 +33,7 @@ const SigninForm = () => {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-   
+
     let emailFirstError: string = "";
     let passwordFirstError: string = "";
 

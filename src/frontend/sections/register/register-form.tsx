@@ -1,6 +1,6 @@
 "use client";
 
-import { emailErrors, passwordErrors } from "./credentials-errors";
+import { emailErrors, passwordErrors } from "./sub-components/credentials-errors";
 import { useState, ChangeEvent, FormEvent } from "react";
 import Link from "next/link";
 import PasswordInvisibleIcon from "@/frontend/components/icons/password-invisible-icon";
@@ -11,17 +11,20 @@ import FacebookIcon from "@/frontend/components/icons/facebook-icon";
 type Credentials = {
   email: string;
   password: string;
+  checkbox: boolean;
 };
 const RegisterForm = () => {
-  const [credentials, setCredentials] = useState<Credentials>({ email: "", password: "" });
+  const [credentials, setCredentials] = useState<Credentials>({
+    email: "",
+    password: "",
+    checkbox: false,
+  });
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
   const [credentialsErrors, setCredentialsErrors] = useState({
     email: "",
     password: "",
-    checkbox: ""
+    checkbox: "",
   });
-
-  const [isChecked, setIsChecked] = useState(false);
 
   const handleTogglePasswordVisibility = () => {
     setIsPasswordVisible((current) => !current);
@@ -35,8 +38,11 @@ const RegisterForm = () => {
     }));
   };
 
-  const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setIsChecked(event.target.checked);
+  const handleCheckboxChange = () => {
+    setCredentials((previousCredentials) => ({
+      ...previousCredentials,
+      checkbox: !previousCredentials.checkbox,
+    }));
   };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -60,12 +66,20 @@ const RegisterForm = () => {
       }
     }
 
+    checkboxFirstError = !credentials.checkbox
+      ? "You need to read and accept the Terms and conditions"
+      : "";
+
     // Replace alert with API call for sign in
     if (!emailFirstError && !passwordFirstError && !checkboxFirstError) {
       alert("Credentials validated");
       setCredentialsErrors({ email: "", password: "", checkbox: "" });
     } else {
-      setCredentialsErrors({ email: emailFirstError, password: passwordFirstError, checkbox: checkboxFirstError });
+      setCredentialsErrors({
+        email: emailFirstError,
+        password: passwordFirstError,
+        checkbox: checkboxFirstError,
+      });
     }
   };
 
@@ -122,25 +136,32 @@ const RegisterForm = () => {
             <span>
               <input
                 type="checkbox"
-                defaultChecked
-                className=" -translate-x-1.5 mx-0 px-0 ring-0 checkbox checkbox-xs rounded border-[1.5px] bg-yellow-100 border-yellow-100 checked:border-purple-700 [--chkbg:theme(colors.purple.700)]"
+                name="terms"
+                checked={credentials.checkbox}
+                onChange={handleCheckboxChange}
+                className=" -translate-x-1.5 mx-0 px-0 ring-0 checkbox checkbox-xs rounded border-[1.5px] bg-orange-100 border-yellow-100 checked:border-purple-700 [--chkbg:theme(colors.purple.700)]"
               />
             </span>
             <span>
               <label className="label cursor-pointer space-x-2">
                 <span className="text-[0.6rem] font-semibold">
                   {`I've read and accept the `}
-                  <Link href="/termsandconditions" className="group">
+                  <Link href="/termsofuse" className="group">
                     <span className="border-b-[1px] border-transparent group-hover:border-purple-700 group-hover:text-purple-700">
-                      Terms and Conditions
+                      Terms of Uses
                     </span>
                   </Link>{" "}
                 </span>
               </label>
             </span>
           </div>
+          <div
+            className={`${
+              credentialsErrors.email ? "visible" : "invisible"
+            } h-[.75rem] text-[0.6rem] text-red-500 font-semibold mb-4 `}>
+            {credentialsErrors.checkbox}
+          </div>
         </div>
-
         <div className="flex items-baseline justify-between">
           <div className="flex items-baseline">
             <div className="text-[0.6rem] font-semibold pe-2">Register with</div>
