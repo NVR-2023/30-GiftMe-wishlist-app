@@ -1,6 +1,5 @@
 "use client";
 
-import { emailErrors , passwordErrors } from "../register/credentials-errors";
 import { useState, ChangeEvent, FormEvent } from "react";
 import Link from "next/link";
 import PasswordInvisibleIcon from "@/frontend/components/icons/password-invisible-icon";
@@ -8,6 +7,7 @@ import PasswordVisibleIcon from "@/frontend/components/icons/password-visible-ic
 import GoogleIcon from "@/frontend/components/icons/google-icon";
 import FacebookIcon from "@/frontend/components/icons/facebook-icon";
 
+import BasicButton from "@/frontend/components/ui/basic-button/basic-button";
 
 type Credentials = {
   email: string;
@@ -34,7 +34,32 @@ const SigninForm = () => {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-   
+
+    type Error = {
+      regEx: RegExp;
+      message: string;
+    };
+
+    type CredentialErrors = Error[];
+
+    const emailErrors: CredentialErrors = [
+      { regEx: /^.+$/, message: "Email required" },
+      {
+        regEx: /^.{6,}$/,
+        message: "Email too short",
+      },
+
+      { regEx: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, message: "Invalid email" },
+    ];
+
+    const passwordErrors: CredentialErrors = [
+      { regEx: /^.+$/, message: "Password required" },
+      { regEx: /^.{8,}$/, message: "Password too short" },
+      { regEx: /^(?=.*[A-Z]).{8,}$/, message: "At least one uppercase letter" },
+      { regEx: /^(?=.*[a-z]).{8,}$/, message: "At least one lowercase letter" },
+      { regEx: /^(?=.*\d).{8,}$/, message: "At least one digit" },
+    ];
+
     let emailFirstError: string = "";
     let passwordFirstError: string = "";
 
@@ -64,7 +89,7 @@ const SigninForm = () => {
   return (
     <div className="text-purple-700">
       <form className="flex flex-col space-y-2" onSubmit={handleSubmit}>
-        <div className="font-bold text-3xl mb-7">Sign in</div>
+        <div className="font-bold text-2xl mb-4">Sign in</div>
         <div className="flex flex-col">
           <label htmlFor="email" className="text-sm font-semibold mb-0.5">
             Email
