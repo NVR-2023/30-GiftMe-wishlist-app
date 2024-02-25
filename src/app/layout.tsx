@@ -17,7 +17,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html className="h-screen w-screen overflow-x-hidden" lang="en">
       <body className={inter.className}>
         {children}
         <FooterSection background="bg-zinc-800" text="text-white" />
