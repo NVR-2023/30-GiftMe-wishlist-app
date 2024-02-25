@@ -75,7 +75,7 @@ const RegisterForm = () => {
 
     // Replace alert with API call for sign in
     if (!emailFirstError && !passwordFirstError && !checkboxFirstError) {
-      alert("Credentials validated");
+      alert(`Credentials validated: ${credentials.email} ${credentials.password}`);
       setCredentialsErrors({ email: "", password: "", checkbox: "" });
     } else {
       setCredentialsErrors({
