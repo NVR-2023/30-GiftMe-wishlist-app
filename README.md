@@ -18,13 +18,12 @@ BackEnd: Prisma 5.9 , Supabase 1.1
 Frontend Lead: Nuno Rodrigues
 Frontend developer: Diego Casermeiro Gálvez  
 **Backend:** 
-Backend Lead: Rui Silva
-Backend developer: Enrique Ibarra  
+Backend Lead: Enrique Ibarra  
 **Data Science:** 
 Data Science Lead: Gonzalo Cagigao Bravo  
 Data Science Developer: Carlos E Mijares R
 
-**Past Contributors:** José Del Rio, and Matías Exequiel Cecci 
+**Past Contributors:** José Del Rio, Matías Exequiel Cecci, and Rui Silva 
 
 ## Version History
 
