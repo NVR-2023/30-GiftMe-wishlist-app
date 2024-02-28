@@ -50,7 +50,7 @@ function scrapeProductDetails(url) {
                     _a.trys.push([1, 3, , 4]);
                     return [4 /*yield*/, axios_1.default.get(url, {
                             headers: {
-                                'User-Agent': 'Your User Agent Here' // Replace with your actual User Agent
+                                'User-Agent': 'Your User Agent Here'
                             }
                         })];
                 case 2:
@@ -58,7 +58,7 @@ function scrapeProductDetails(url) {
                     html = response.data;
                     $ = cheerio.load(html);
                     productData.name = $('#productTitle').text().trim();
-                    productData.category = $('span.a-list-item').first().text().trim(); // Selector adjusted based on your image
+                    productData.category = $('span.a-list-item').first().text().trim();
                     productData.vendor = $('a#bylineInfo').text().replace('Visita la tienda de ', '').trim();
                     priceString = $('.a-offscreen').first().text().replace(/[^0-9.,]/g, '');
                     productData.price = parseFloat(priceString.replace(/,/g, '.'));
