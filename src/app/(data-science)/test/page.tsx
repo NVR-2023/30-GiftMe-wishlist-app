@@ -1,13 +1,16 @@
-"use client";
+ "use client"
 
 import { useState } from "react";
-import Image from "next/image";
+// import Image from "next/image";
+import { scrappedProductDetailsResult } from "@/types/types";
 import { scrapeProductDetails } from "../../../frontend/data-science/scrapeProductDetails";
 
+
+
 const DataSciencePage = () => {
-  const [url, setUrl] = useState("");
-  const [productData, setProductData] = useState<any>(null);
-  const [error, setError] = useState("");
+  const [url, setUrl] = useState<string>("");
+  const [productData, setProductData] = useState<scrappedProductDetailsResult>({});
+  const [error, setError] = useState<string>("");
 
   const handleScrape = async () => {
     if (!url) {
@@ -16,11 +19,11 @@ const DataSciencePage = () => {
     }
 
     try {
-      const data: any = await scrapeProductDetails(url);
+      const data: scrappedProductDetailsResult = await scrapeProductDetails(url);
       setProductData(data);
       setError("");
     } catch (err) {
-      setError("error in data extraction");
+      setError("Error in data extraction");
       console.error(err);
     }
   };
@@ -34,17 +37,18 @@ const DataSciencePage = () => {
             value={url}
             onChange={(e) => setUrl(e.target.value)}
             placeholder="Enter the URL"
-            className=" border-2 rounded border-blue-400 "
+            className="border-2 rounded border-blue-400"
           />
-          <button className="bg-2 bg-zinc-700 text-white  px-3 py-2 rounded" onClick={handleScrape}>
+          <button className="bg-2 bg-zinc-700 text-white px-3 py-2 rounded" onClick={handleScrape}>
             Get data
           </button>
         </div>
         {error && <p className="error">{error}</p>}
-
         {productData && (
           <div>
-            <h1>{productData.name}</h1>
+            {Object.entries(productData).map(([key, value]) => (
+              <div key={key as keyof scrappedProductDetailsResult}>{`${key}: ${value}`}</div>
+            ))}
           </div>
         )}
       </div>
