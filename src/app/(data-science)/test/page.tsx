@@ -1,7 +1,7 @@
  "use client"
 
 import { useState } from "react";
-// import Image from "next/image";
+import Image from "next/image";
 import { scrappedProductDetailsResult } from "@/types/types";
 import { scrapeProductDetails } from "../../../frontend/data-science/scrapeProductDetails";
 
