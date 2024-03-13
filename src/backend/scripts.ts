@@ -9,15 +9,15 @@ async function createUserProfile() {
       console.log('Starting user creation process...');
     await prisma.userProfile.create({
       data: {
-        name: 'Jack',
-        surname: 'Black',
+        name: 'Rui',
+        surname: 'Silva',
         avatarImage: 'avatar.jpg', 
-        email: 'jack@example.com',
-        password: 'hashedPassword123', 
+        email: 'rui@example.com',
+        password: '123456', 
         phone: '+1234567890', 
         birthDate: new Date('1990-01-01'), 
         address: '123 Main St',
-        role: 'BASIC', 
+        role: 'ADMIN', 
       },
     });
     console.log('User created:', user);

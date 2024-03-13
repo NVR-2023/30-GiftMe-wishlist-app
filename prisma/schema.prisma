@@ -1,6 +1,9 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -8,148 +11,131 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-  // directUrl = env("POSTGRES_URL_NON_POOLING")
 }
 
 model UserProfile {
-  userId      String    @id @default(uuid())
-  name        String
-  surname     String
-  avatarImage String?
-  email       String    @unique
-  password    String
-  phone       String?
-  birthDate   DateTime?
-  address     String
-  createdAt   DateTime  @default(now())
-  role        Role      @default(BASIC)
-
-  groups            UserGroup[]
-  wishlists         WishList[]
-  giftReceiver      Gift[]
-  userNotifications UserNotification[]
-  userWishlists     UserWishlist[]
-
-  createdWishLists WishList[]     @relation("WishListCreator")
-  reservedGifts    ReservedGift[]
+  id                       String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name                     String
+  surname                  String
+  avatarImage              String?
+  email                    String
+  password                 String
+  birthDate                DateTime
+  myaddress                String
+  secondAddress            String?
+  createdAt                DateTime             @default(dbgenerated("now()"))
+  isActive                 Boolean
+  createdGroups            Group[]              @relation("CreatedBy") // list of created groups
+  groupMember              GroupMember[]        @relation("groupMember") // list of groups that user belongs to
+  wishlists                Wishlist[] // wishlists created by this user
+  wishlistMember           WishlistMember[] // wishlist this user belongs to
+  wishlistInvitations      WishlistInvitation[] @relation("InvitedByUserProfile") // list of wishlist user invited to 
+  wishlistInvitationMember WishlistInvitation[] @relation("ReceivedByUserProfile") // list of wishlists recieved by user
 }
 
-model GroupList {
-  groupId String @id @default(uuid())
-  name    String
-
-  users          UserGroup[]
-  groupWishLists GroupWishList[]
-  gifts          Gift[]
+model Group {
+  id           String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  groupName    String
+  createdAt    DateTime      @default(dbgenerated("now()"))
+  isActive     Boolean
+  createdBy    UserProfile   @relation("CreatedBy", fields: [createdById], references: [id])
+  createdById  String        @db.Uuid // foreign key 
+  groupMembers GroupMember[]
 }
 
-model UserGroup {
-  id    String      @id @default(uuid())
-  user  UserProfile @relation(fields: [userId], references: [userId])
-  group GroupList   @relation(fields: [groupId], references: [groupId])
-
-  userId  String
-  groupId String
-
-  @@unique([userId, groupId])
+model GroupMember {
+  id             String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  isInvited      Boolean
+  isAccepted     Boolean     @default(false)
+  invitationDate DateTime    @default(dbgenerated("now()"))
+  acceptanceDate DateTime
+  group          Group       @relation(fields: [groupId], references: [id])
+  groupId        String      @db.Uuid // foreign key
+  currentUser    UserProfile @relation("groupMember", fields: [currentUserId], references: [id])
+  currentUserId  String      @db.Uuid // foreign key
 }
 
-model WishList {
-  wishlistId String      @id @default(uuid())
-  name       String      @unique
-  creator    UserProfile @relation("WishListCreator", fields: [userId], references: [userId], onDelete: Cascade)
-  isActive   Boolean     @default(true)
-  userId     String
-
-  userWishlists UserWishlist[]
-  groups        GroupWishList[]
-  gifts         Gift[]
-
-  createdBy UserProfile @relation(fields: [userId], references: [userId], map: "created_by_fk")
+model Wishlist {
+  id                  String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name                String
+  createdBy           UserProfile          @relation(fields: [createdById], references: [id])
+  createdById         String               @db.Uuid // foreign key
+  isActive            Boolean
+  createdAt           DateTime
+  closedBy            DateTime
+  wishlistMembers     WishlistMember[] // list of members of the wishlist
+  wishlistInvitations WishlistInvitation[] //list of members invited to the wishlist
+  gifts               Gift[]
 }
 
-model UserWishlist {
-  id       String      @id @default(uuid())
-  user     UserProfile @relation(fields: [userId], references: [userId])
-  wishlist WishList    @relation(fields: [wishlistId], references: [wishlistId])
-
-  userId     String
-  wishlistId String
-
-  // Indica si el usuario es el creador de la lista o el receptor
-  isCreator  Boolean
-  isReceiver Boolean
-
-  @@unique([userId, wishlistId])
+model WishlistMember {
+  id            String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  wishlist      Wishlist    @relation(fields: [wishlistId], references: [id])
+  wishlistId    String      @db.Uuid
+  userProfile   UserProfile @relation(fields: [userProfileId], references: [id])
+  userProfileId String      @db.Uuid
 }
 
-model GroupWishList {
-  id         String    @id @default(uuid())
-  group      GroupList @relation(fields: [groupId], references: [groupId], onDelete: Cascade)
-  wishlist   WishList  @relation(fields: [wishlistId], references: [wishlistId], onDelete: Cascade)
-  groupId    String
-  wishlistId String
-
-  @@unique([groupId, wishlistId])
-}
-
-model ReservedGift {
-  id           String   @id @default(uuid())
-  reservedDate DateTime @default(now())
-  isPurchased  Boolean  @default(false)
-  gift         Gift     @relation(fields: [giftId], references: [giftId], onDelete: Cascade)
-  giftId       String
-
-  reservedBy   UserProfile @relation(fields: [reservedById], references: [userId])
-  reservedById String
-
-  @@unique([giftId], name: "unique_reserved_gift")
+model WishlistInvitation {
+  id             String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  wishlist       Wishlist    @relation(fields: [wishlistId], references: [id])
+  wishlistId     String      @db.Uuid // foreign key
+  isInvited      Boolean
+  isAccepted     Boolean     @default(false)
+  invitationDate DateTime
+  acceptanceDate DateTime?
+  invitedBy      UserProfile @relation("InvitedByUserProfile", fields: [invitedById], references: [id])
+  invitedById    String      @db.Uuid // who issued the invitation
+  receivedBy     UserProfile @relation("ReceivedByUserProfile", fields: [receivedById], references: [id])
+  receivedById   String      @db.Uuid // who received the invitation 
 }
 
 model Gift {
-  giftId          String    @id @default(uuid())
-  name            String
-  category        String
-  giftImage       String?
-  provider        String
-  providerUrl     String
-  isSentToMe      Boolean   @default(false)
-  status          String
-  price           Float
-  isPriceTracked  Boolean   @default(false)
-  upperPriceLimit Float?
-  lowerPriceLimit Float?
-  deliverDate     DateTime?
-  maxDeliverDate  DateTime?
-  registerDate    DateTime  @default(now())
-
-  receiverId String
-  wishlistId String
-  groupId    String?
-
-  wishlist      WishList       @relation(fields: [wishlistId], references: [wishlistId], onDelete: Cascade)
-  group         GroupList?     @relation(fields: [groupId], references: [groupId])
-  receiver      UserProfile    @relation(fields: [receiverId], references: userId, onDelete: Cascade)
-  reservedGifts ReservedGift[]
+  id                    String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name                  String
+  description           String
+  vendor                String?
+  url                   String?
+  image                 String?
+  price                 Float?
+  category              String?
+  currency              String?
+  isPriceTracked        Boolean
+  priceUpperLimit       Float?
+  priceLowerLimit       Float?
+  status                String // Consider using an enum type for status
+  reservationDate       DateTime?
+  reservedBy            String?
+  isPurchased           Boolean
+  purchasedDate         DateTime?
+  deliveryDate          DateTime?
+  isDeliveredToReceiver Boolean?
+  wishlist              Wishlist  @relation(fields: [wishlistId], references: [id])
+  wishlistId            String    @db.Uuid
 }
 
 model Notification {
-  id                String             @id @default(uuid())
-  title             String
-  description       String?
-  isRead            Boolean            @default(false)
-  userNotifications UserNotification[]
+  id               String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  title            String
+  message          String
+  status           NotificationStatus
+  timestamp        DateTime           @default(dbgenerated("now()"))
+  notificationType NotificationType
 }
 
-model UserNotification {
-  id             String       @id @default(uuid())
-  user           UserProfile  @relation(fields: [userId], references: [userId])
-  userId         String
-  notification   Notification @relation(fields: [notificationId], references: [id], onDelete: Cascade)
-  notificationId String
+// Enum naming convention (PascalCase)
+enum NotificationType {
+  GROUP
+  WISHLIST
+  GIFT_RESERVATION
+  GIFT_PURCHASE
 }
 
-enum Role {
-  BASIC
-  ADMIN
+// Enum naming convention (PascalCase)
+enum NotificationStatus {
+  PENDING
+  READ
+  UNREAD
+  ARCHIVED
+  DISMISSED
 }
