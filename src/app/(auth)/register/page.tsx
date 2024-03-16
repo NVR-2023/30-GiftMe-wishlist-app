@@ -1,16 +1,21 @@
-import RegisterForm from "@/frontend/sections/register/register-form";;
-import BackgroundImage from "@/frontend/sections/hero-homepage/sub-components/background-image";
-const SignIn = () => {
+import Image from "next/image";
+import RegisterForm from "@/frontend/sections/register/register-form";
+
+const Register = () => {
   return (
-    <div className="relative h-screen w-screen overflow-hidden ">
-      <div>
-        <BackgroundImage />
-      </div>
-      <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
-        <RegisterForm />
+    <div className="h-screen w-screen overflow-hidden">
+      <div className="grid grid-cols-2">
+        <div className="col-span-1 flex justify-center items-center">
+          <div className="relative w-full h-full bg-amber-400">
+       
+          </div>
+        </div>
+        <div className="col-span-1">
+          <RegisterForm />
+        </div>
       </div>
     </div>
   );
 };
 
-export default SignIn;
+export default Register;

@@ -87,15 +87,15 @@ const RegisterForm = () => {
   };
 
   return (
-    <div className="text-purple-700">
-      <form className="flex flex-col space-y-2" onSubmit={handleSubmit}>
+    <div className="h-screen bg-amber-400 text-purple-700 p-4">
+      <form className="mx-24 flex flex-col" onSubmit={handleSubmit}>
         <div className="font-bold text-3xl mb-7">Register</div>
         <div className="flex flex-col">
           <label htmlFor="email" className="text-sm font-semibold mb-0.5">
             Email
           </label>
           <input
-            className="rounded bg-orange-100 h-8 ps-2 focus:outline-none focus:border-purple-700 focus:ring-purple-700 focus:ring-[1px]"
+            className="rounded bg-amber-400 h-6 ps-2 border-2 border-purple-700 focus:outline-none focus:ring-purple-700 focus:ring-[1px]"
             id="email"
             name="email"
             value={credentials.email}
@@ -122,7 +122,7 @@ const RegisterForm = () => {
             </span>
           </div>
           <input
-            className="rounded bg-orange-100 h-8 ps-2 focus:outline-none focus:border-purple-700 focus:ring-purple-700 focus:ring-[1px]"
+            className="rounded bg-amber-400 h-6 ps-2 border-2 border-purple-700 focus:outline-none focus:ring-purple-700 focus:ring-[1px]"
             id="password"
             name="password"
             type={isPasswordVisible ? "text" : "password"}
@@ -142,16 +142,16 @@ const RegisterForm = () => {
                 name="terms"
                 checked={credentials.checkbox}
                 onChange={handleCheckboxChange}
-                className=" -translate-x-1.5 mx-0 px-0 ring-0 checkbox checkbox-xs rounded border-[1.5px] bg-orange-100 border-yellow-100 checked:border-purple-700 [--chkbg:theme(colors.purple.700)]"
+                className=" -translate-x-1.5 mx-0 px-0 ring-0 checkbox checkbox-xs rounded border-[1.5px] bg-amber-400 border-purple-700 checked:border-purple-700 [--chkbg:theme(colors.purple.700)]"
               />
             </span>
             <span>
               <label className="label cursor-pointer space-x-2">
                 <span className="text-[0.6rem] font-semibold">
-                  {`I've read and accept the `}
+                  {`I accept the `}
                   <Link href="/termsofuse" className="group">
                     <span className="border-b-[1px] border-transparent group-hover:border-purple-700 group-hover:text-purple-700">
-                      Terms of Uses
+                      Terms of Use
                     </span>
                   </Link>{" "}
                 </span>
@@ -186,7 +186,7 @@ const RegisterForm = () => {
           </Link>
           <button
             type="submit"
-            className="w-36 h-8 rounded bg-purple-700 text-orange-400 text-sm tracking-wide">
+            className="w-36 h-8 rounded bg-purple-700 text-amber-400 text-sm tracking-wide">
             Register
           </button>
         </div>
