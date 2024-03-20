@@ -9,13 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@prisma/client": "^5.10.2",
-    "@supabase/ssr": "^0.1.0",
     "next": "14.1.0",
     "react": "^18",
     "react-dom": "^18"
   },
   "devDependencies": {
+    "@prisma/client": "^5.11.0",
+    "@types/express": "^4.17.21",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
@@ -23,10 +23,16 @@
     "daisyui": "^4.7.2",
     "eslint": "^8",
     "eslint-config-next": "14.1.0",
+    "express": "^4.18.3",
     "postcss": "^8",
-    "prisma": "^5.10.2",
-    "supabase": "^1.142.2",
+    "prisma": "^5.11.0",
     "tailwindcss": "^3.3.0",
+    "ts-node": "^10.9.2",
     "typescript": "^5"
-  }
+  },
+  "description": "This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).",
+  "main": "postcss.config.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
