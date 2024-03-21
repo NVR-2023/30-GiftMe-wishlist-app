@@ -21,9 +21,10 @@ model UserProfile {
   email                    String
   password                 String
   birthDate                DateTime
-  primaryAddress           String
-  secondaryAddress         String?
+  myaddress                String
+  secondAddress            String?
   createdAt                DateTime             @default(dbgenerated("now()"))
+  isActive                 Boolean              @default(true)
   createdGroups            Group[]              @relation("CreatedBy") // list of created groups
   groupMember              GroupMember[]        @relation("groupMember") // list of groups that user belongs to
   wishlists                Wishlist[] // wishlists created by this user

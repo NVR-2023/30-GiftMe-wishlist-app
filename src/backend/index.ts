@@ -1,4 +1,3 @@
-// THIS FILE IS TO INITIALIZE THE SERVER WITH EXPRESS
 import express, { Request, Response } from "express";
 
 const app = express();
