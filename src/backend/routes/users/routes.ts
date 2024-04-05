@@ -6,13 +6,18 @@ const router = express.Router();
 const prisma = new PrismaClient();
 
 // GET route to fetch all user profiles
-router.get("/users", async (req, res) => {
-  const users = await prisma.userProfile.findMany();
-  res.json(users);
+router.get("/api/users", async (req, res) => {
+  try {
+    const users = await prisma.userProfile.findMany();
+    res.json(users);
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    res.status(500).json({ error: "Failed to fetch users" });
+  }
 });
 
 // Function to create a new user
-router.post("/users", async (req, res) => {
+router.post("/api/users", async (req, res) => {
   try {
     const userData = req.body;
     const newUser = await createUser(userData);
@@ -33,7 +38,7 @@ const createUser = async (userData: any) => {
         avatarImage: userData.avatarImage,
         email: userData.email,
         password: userData.password,
-        birthDate: userData.birthdate,
+        birthDate: userData.birthDate,
         primaryAddress: userData.primaryAddress,
         secondaryAddress: userData.secondaryAddress,
       },
