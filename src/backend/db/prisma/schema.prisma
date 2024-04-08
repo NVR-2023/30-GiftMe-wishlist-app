@@ -1,0 +1,132 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model UserProfile {
+  id                       String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name                     String
+  surname                  String
+  avatarImage              String?
+  email                    String
+  password                 String
+  birthDate                DateTime
+  primaryAddress           String
+  secondaryAddress         String?
+  createdAt                DateTime             @default(now())
+  createdGroups            Group[]              @relation("CreatedBy")
+  groupMember              GroupMember[]        @relation("groupMember")
+  wishlists                Wishlist[]
+  wishlistInvitations      WishlistInvitation[] @relation("InvitedByUserProfile")
+  wishlistInvitationMember WishlistInvitation[] @relation("ReceivedByUserProfile")
+  wishlistMember           WishlistMember[]
+}
+
+model Group {
+  id           String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  groupName    String
+  createdAt    DateTime      @default(now())
+  isActive     Boolean
+  createdById  String        @db.Uuid
+  createdBy    UserProfile   @relation("CreatedBy", fields: [createdById], references: [id])
+  groupMembers GroupMember[]
+}
+
+model GroupMember {
+  id             String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  isInvited      Boolean
+  isAccepted     Boolean     @default(false)
+  invitationDate DateTime    @default(now())
+  acceptanceDate DateTime
+  groupId        String      @db.Uuid
+  currentUserId  String      @db.Uuid
+  currentUser    UserProfile @relation("groupMember", fields: [currentUserId], references: [id])
+  group          Group       @relation(fields: [groupId], references: [id])
+}
+
+model Wishlist {
+  id                  String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name                String
+  createdById         String               @db.Uuid
+  isActive            Boolean
+  createdAt           DateTime
+  closedBy            DateTime
+  gifts               Gift[]
+  createdBy           UserProfile          @relation(fields: [createdById], references: [id])
+  wishlistInvitations WishlistInvitation[]
+  wishlistMembers     WishlistMember[]
+}
+
+model WishlistMember {
+  id            String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  wishlistId    String      @db.Uuid
+  userProfileId String      @db.Uuid
+  userProfile   UserProfile @relation(fields: [userProfileId], references: [id])
+  wishlist      Wishlist    @relation(fields: [wishlistId], references: [id])
+}
+
+model WishlistInvitation {
+  id             String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  wishlistId     String      @db.Uuid
+  isInvited      Boolean
+  isAccepted     Boolean     @default(false)
+  invitationDate DateTime
+  acceptanceDate DateTime?
+  invitedById    String      @db.Uuid
+  receivedById   String      @db.Uuid
+  invitedBy      UserProfile @relation("InvitedByUserProfile", fields: [invitedById], references: [id])
+  receivedBy     UserProfile @relation("ReceivedByUserProfile", fields: [receivedById], references: [id])
+  wishlist       Wishlist    @relation(fields: [wishlistId], references: [id])
+}
+
+model Gift {
+  id                    String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name                  String
+  description           String
+  vendor                String?
+  url                   String?
+  image                 String?
+  price                 Float?
+  category              String?
+  currency              String?
+  isPriceTracked        Boolean
+  priceUpperLimit       Float?
+  priceLowerLimit       Float?
+  status                String
+  reservationDate       DateTime?
+  reservedBy            String?
+  isPurchased           Boolean
+  purchasedDate         DateTime?
+  deliveryDate          DateTime?
+  isDeliveredToReceiver Boolean?
+  wishlistId            String    @db.Uuid
+  wishlist              Wishlist  @relation(fields: [wishlistId], references: [id])
+}
+
+model Notification {
+  id               String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  title            String
+  message          String
+  status           NotificationStatus
+  timestamp        DateTime           @default(now())
+  notificationType NotificationType
+}
+
+enum NotificationType {
+  GROUP
+  WISHLIST
+  GIFT_RESERVATION
+  GIFT_PURCHASE
+}
+
+enum NotificationStatus {
+  PENDING
+  READ
+  UNREAD
+  ARCHIVED
+  DISMISSED
+}
