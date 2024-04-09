@@ -10,6 +10,11 @@ const app = express()
 const port = process.env.PORT || 3000
 const databaseURL = process.env.DATABASE_URL
 
+// Check if DATABASE_URL is defined
+if (!databaseURL) {
+  throw new Error('DATABASE_URL environment variable is not defined')
+}
+
 const prisma = new PrismaClient({
   datasources: {
     db: {
@@ -37,14 +42,10 @@ app.post('/api/users', async (req, res) => {
         secondaryAddress: userData.secondaryAddress
       }
     })
-    console.log('primary address', userData.primaryAddress)
     res.status(201).json(newUser)
   } catch (err) {
     console.error('Error creating user', err)
-    res.status(500).json({
-      err: 'Failed to create user',
-      message: err.message
-    })
+    res.status(500).json({ err: 'Failed to create user', message: err.message })
   }
 })
 
