@@ -4,7 +4,7 @@ import { PrismaClient, UserProfile } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-interface UserData {
+export interface UserData {
   name: string;
   surname: string;
   avatarImage?: string;

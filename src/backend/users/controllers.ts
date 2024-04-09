@@ -1,18 +1,7 @@
 // THESE ARE THE CONTROLLERS FOR USERS
 
 import { Request, Response } from "express";
-import { CreateUser } from "./models";
-
-export interface UserData {
-  name: string;
-  surname: string;
-  avatarImage?: string;
-  email: string;
-  password: string;
-  birthDate: string; // Change to appropriate date format
-  primaryAddress: string;
-  secondaryAddress?: string;
-}
+import { CreateUser, UserData } from "./models";
 
 export const UserController = {
   createUser: async (req: Request<object, UserData>, res: Response) => {
