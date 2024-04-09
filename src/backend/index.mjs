@@ -1,4 +1,6 @@
 // THIS FILE IS TO INITIALIZE THE SERVER WITH EXPRESS
+// @ts-nocheck
+
 import express from 'express'
 import { PrismaClient } from '@prisma/client'
 import dotenv from 'dotenv'
