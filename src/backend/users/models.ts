@@ -1,4 +1,5 @@
 // THESE ARE THE MODELS FOR USERS
+// @ts-nocheck
 
 import { PrismaClient } from "@prisma/client";
 

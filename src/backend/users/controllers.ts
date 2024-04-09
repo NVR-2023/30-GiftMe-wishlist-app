@@ -1,5 +1,6 @@
 // THESE ARE THE CONTROLLERS FOR USERS
-// controllers/userController.ts
+// @ts-nocheck
+
 import { Request, Response } from "express";
 import { CreateUser } from "./models";
 

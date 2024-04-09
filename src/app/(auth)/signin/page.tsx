@@ -1,6 +1,13 @@
 import SigninForm from "../../../frontend/sections/signin/ssignin-form";
 import BackgroundImage from "@/frontend/sections/hero-homepage/sub-components/background-image";
+import { createClient } from '@supabase/supabase-js' 
+
 const SignIn = () => {
+
+  const login = () => {
+    const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) 
+  }
+
   return (
     <div className="relative h-screen w-screen overflow-hidden ">
       <div>
