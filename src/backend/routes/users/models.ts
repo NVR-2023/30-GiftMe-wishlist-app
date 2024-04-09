@@ -1,6 +1,6 @@
 // THESE ARE THE MODELS FOR USERS
 
-import { PrismaClient, UserProfile } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -16,7 +16,7 @@ export interface UserData {
 }
 
 export const CreateUser = {
-  createUser: async (userData: UserData): Promise<UserProfile> => {
+  createUser: async (userData: UserData) => {
     try {
       const newUser = await prisma.userProfile.create({
         data: {
