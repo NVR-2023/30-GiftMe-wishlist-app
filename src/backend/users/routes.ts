@@ -1,13 +1,14 @@
 // THESE ARE THE ROUTES FOR USERS
-// @ts-nocheck
 
-import express from "express";
-import { UserController } from "./controllers";
+import { Request, Response, Router } from "express";
+import { UserController, UserData } from "./controllers.js";
 
-const router = express.Router();
+const router = Router();
 
 // Define routes for users
-router.post("/", UserController.createUser);
+router.post("/", (req: Request<UserData>, res: Response) => {
+  UserController.createUser(req, res);
+});
 // Add more routes as needed
 
 export default router;

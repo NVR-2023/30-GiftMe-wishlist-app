@@ -22,7 +22,8 @@
       "@/*": ["./src/*"]
     },
   },
-  "include": ["next-env.d.ts", "src/**/*.ts", "src/**/*.tsx", ".next/types/**/*.ts", "src/backend/index.mjs"],
-  "exclude": ["node_modules"]
+  "include": ["next-env.d.ts", "src/**/*.ts", "src/**/*.tsx", ".next/types/**/*.ts", "src/backend/index.mjs", "src/backend/users/models.ts", "src/backend/users/controllers.ts", "src/backend/users/routes.ts"],
+  "exclude": ["node_modules"],
 }
+
 

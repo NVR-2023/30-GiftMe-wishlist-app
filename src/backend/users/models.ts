@@ -1,12 +1,22 @@
 // THESE ARE THE MODELS FOR USERS
-// @ts-nocheck
 
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, UserProfile } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
+interface UserData {
+  name: string;
+  surname: string;
+  avatarImage?: string;
+  email: string;
+  password: string;
+  birthDate: string; // Change to string or appropriate date format
+  primaryAddress: string;
+  secondaryAddress?: string;
+}
+
 export const CreateUser = {
-  createUser: async (userData: any) => {
+  createUser: async (userData: UserData): Promise<UserProfile> => {
     try {
       const newUser = await prisma.userProfile.create({
         data: {
