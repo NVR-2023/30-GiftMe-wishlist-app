@@ -1,4 +1,0 @@
-ignore-src/backend/users/routes.ts
-ignore-src/backend/users/controllers.ts
-ignore-src/backend/users/models.ts
-ignore-src/backend/index.mjs
