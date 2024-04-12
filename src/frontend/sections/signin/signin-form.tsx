@@ -3,17 +3,21 @@
 import { emailErrors, passwordErrors } from "../register/sub-components/credentials-errors";
 import { useState, ChangeEvent, FormEvent } from "react";
 import Link from "next/link";
-import PasswordInvisibleIcon from "@/frontend/components/icons/password-invisible-icon";
-import PasswordVisibleIcon from "@/frontend/components/icons/password-visible-icon";
-import GoogleIcon from "@/frontend/components/icons/google-icon";
-import FacebookIcon from "@/frontend/components/icons/facebook-icon";
+// import PasswordInvisibleIcon from "@/frontend/components/icons/password-invisible-icon";
+// import PasswordVisibleIcon from "@/frontend/components/icons/password-visible-icon";
+// import GoogleIcon from "@/frontend/components/icons/google-icon";
+// import FacebookIcon from "@/frontend/components/icons/facebook-icon";
 
-type Credentials = {
+interface SigninFormProps {
   email: string;
+  setEmail: React.Dispatch<React.SetStateAction<string>>;
   password: string;
-};
-const SigninForm = () => {
-  const [credentials, setCredentials] = useState<Credentials>({ email: "", password: "" });
+  setPassword: React.Dispatch<React.SetStateAction<string>>;
+  handleLogin: (email: string, password: string) => void;
+}
+
+const SigninForm: React.FC<SigninFormProps> = ({ email, setEmail, password, setPassword, handleLogin }) => {
+  
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
   const [credentialsErrors, setCredentialsErrors] = useState({
     email: "",
@@ -25,27 +29,29 @@ const SigninForm = () => {
 
   const handleOnChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    setCredentials((current) => ({
-      ...current,
-      [name]: value,
-    }));
-  };
+    if (name === 'email') {
+      setEmail(value);
+    } else if (name === 'password') {
+      setPassword(value);
+    }
+  }
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
+    handleLogin(email, password)
+    
     let emailFirstError: string = "";
     let passwordFirstError: string = "";
 
     for (const { regEx, message } of emailErrors) {
-      if (!regEx.test(credentials.email)) {
+      if (!regEx.test(email)) {
         emailFirstError = message;
         break;
       }
     }
 
     for (const { regEx, message } of passwordErrors) {
-      if (!regEx.test(credentials.password)) {
+      if (!regEx.test(password)) {
         passwordFirstError = message;
         break;
       }
@@ -60,6 +66,7 @@ const SigninForm = () => {
     }
   };
 
+  
   return (
     <div className="text-purple-700">
       <form className="flex flex-col space-y-2" onSubmit={handleSubmit}>
@@ -72,12 +79,12 @@ const SigninForm = () => {
             className="rounded bg-orange-100 h-8 ps-2 focus:outline-none focus:border-purple-700 focus:ring-purple-700 focus:ring-[1px]"
             id="email"
             name="email"
-            value={credentials.email}
-            onChange={handleOnChange}></input>
+            value={email}
+            onChange={handleOnChange}>
+          </input>
           <div
-            className={`${
-              credentialsErrors.email ? "visible" : "invisible"
-            } h-[.75rem] text-[0.6rem] text-red-500 font-semibold mt-2 mb-4`}>
+            className={`${credentialsErrors.email ? "visible" : "invisible"
+              } h-[.75rem] text-[0.6rem] text-red-500 font-semibold mt-2 mb-4`}>
             {credentialsErrors.email}
           </div>
         </div>
@@ -87,25 +94,24 @@ const SigninForm = () => {
             <label htmlFor="email" className="text-sm font-semibold">
               Password
             </label>
-            <span onClick={handleTogglePasswordVisibility}>
+            {/* <span onClick={handleTogglePasswordVisibility}>
               {isPasswordVisible ? (
                 <PasswordVisibleIcon scale={0.75} />
               ) : (
                 <PasswordInvisibleIcon scale={0.75} />
               )}
-            </span>
+            </span> */}
           </div>
           <input
             className="rounded bg-orange-100 h-8 ps-2 focus:outline-none focus:border-purple-700 focus:ring-purple-700 focus:ring-[1px]"
             id="password"
             name="password"
             type={isPasswordVisible ? "text" : "password"}
-            value={credentials.password}
+            value={password}
             onChange={handleOnChange}></input>
           <div
-            className={`${
-              credentialsErrors.password ? "visible" : "invisible"
-            } h-[.75rem] text-[0.6rem] text-red-500 font-semibold mt-2 mb-4`}>
+            className={`${credentialsErrors.password ? "visible" : "invisible"
+              } h-[.75rem] text-[0.6rem] text-red-500 font-semibold mt-2 mb-4`}>
             {credentialsErrors.password}
           </div>
         </div>
@@ -114,10 +120,10 @@ const SigninForm = () => {
             <div className="text-[0.6rem] font-semibold pe-2">Sign in with</div>
             <div className="flex space-x-2">
               <div className="">
-                <GoogleIcon scale={0.36} />
+                {/* <GoogleIcon scale={0.36} /> */}
               </div>
               <div className="">
-                <FacebookIcon scale={0.75} />
+                {/* <FacebookIcon scale={0.75} /> */}
               </div>
             </div>
           </div>
@@ -138,5 +144,7 @@ const SigninForm = () => {
       </form>
     </div>
   );
-};
+}; 
+
+
 export default SigninForm;
