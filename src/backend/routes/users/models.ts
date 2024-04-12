@@ -8,7 +8,9 @@ export interface UserData {
   name: string;
   surname: string;
   avatarImage?: string;
-  birthDate: string;
+  birthDate: Date;
+  primaryAddress: string;
+  secondaryAddress?: string;
 }
 
 export const CreateUser = {
@@ -19,7 +21,9 @@ export const CreateUser = {
           name: userData.name,
           surname: userData.surname,
           avatarImage: userData.avatarImage,
-          birthDate: userData.birthDate,
+          birthDate: new Date(userData.birthDate),
+          primaryAddress: userData.primaryAddress,
+          secondaryAddress: userData.secondaryAddress,
         },
       });
       return newUser;

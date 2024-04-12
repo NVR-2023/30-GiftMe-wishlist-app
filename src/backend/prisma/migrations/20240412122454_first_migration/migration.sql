@@ -10,9 +10,12 @@ CREATE TABLE "UserProfile" (
     "name" TEXT NOT NULL,
     "surname" TEXT NOT NULL,
     "avatarImage" TEXT,
-    "birthDate" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
+    "birthDate" TIMESTAMP(3) NOT NULL,
+    "primaryAddress" TEXT NOT NULL,
     "secondaryAddress" TEXT,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT now(),
 
     CONSTRAINT "UserProfile_pkey" PRIMARY KEY ("id")
 );
@@ -21,7 +24,7 @@ CREATE TABLE "UserProfile" (
 CREATE TABLE "Group" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
     "groupName" TEXT NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT now(),
     "isActive" BOOLEAN NOT NULL,
     "createdById" UUID NOT NULL,
 
@@ -33,7 +36,7 @@ CREATE TABLE "GroupMember" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
     "isInvited" BOOLEAN NOT NULL,
     "isAccepted" BOOLEAN NOT NULL DEFAULT false,
-    "invitationDate" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "invitationDate" TIMESTAMP(3) NOT NULL DEFAULT now(),
     "acceptanceDate" TIMESTAMP(3) NOT NULL,
     "groupId" UUID NOT NULL,
     "currentUserId" UUID NOT NULL,
@@ -108,41 +111,38 @@ CREATE TABLE "Notification" (
     "title" TEXT NOT NULL,
     "message" TEXT NOT NULL,
     "status" "NotificationStatus" NOT NULL,
-    "timestamp" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "timestamp" TIMESTAMP(3) NOT NULL DEFAULT now(),
     "notificationType" "NotificationType" NOT NULL,
 
     CONSTRAINT "Notification_pkey" PRIMARY KEY ("id")
 );
 
--- CreateIndex
-CREATE UNIQUE INDEX "UserProfile_secondaryAddress_key" ON "UserProfile"("secondaryAddress");
-
 -- AddForeignKey
 ALTER TABLE "Group" ADD CONSTRAINT "Group_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "UserProfile"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "GroupMember" ADD CONSTRAINT "GroupMember_currentUserId_fkey" FOREIGN KEY ("currentUserId") REFERENCES "UserProfile"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "GroupMember" ADD CONSTRAINT "GroupMember_groupId_fkey" FOREIGN KEY ("groupId") REFERENCES "Group"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "GroupMember" ADD CONSTRAINT "GroupMember_currentUserId_fkey" FOREIGN KEY ("currentUserId") REFERENCES "UserProfile"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "Wishlist" ADD CONSTRAINT "Wishlist_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "UserProfile"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "WishlistMember" ADD CONSTRAINT "WishlistMember_wishlistId_fkey" FOREIGN KEY ("wishlistId") REFERENCES "Wishlist"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "WishlistMember" ADD CONSTRAINT "WishlistMember_userProfileId_fkey" FOREIGN KEY ("userProfileId") REFERENCES "UserProfile"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "WishlistMember" ADD CONSTRAINT "WishlistMember_wishlistId_fkey" FOREIGN KEY ("wishlistId") REFERENCES "Wishlist"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "WishlistInvitation" ADD CONSTRAINT "WishlistInvitation_wishlistId_fkey" FOREIGN KEY ("wishlistId") REFERENCES "Wishlist"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "WishlistInvitation" ADD CONSTRAINT "WishlistInvitation_invitedById_fkey" FOREIGN KEY ("invitedById") REFERENCES "UserProfile"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "WishlistInvitation" ADD CONSTRAINT "WishlistInvitation_receivedById_fkey" FOREIGN KEY ("receivedById") REFERENCES "UserProfile"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "WishlistInvitation" ADD CONSTRAINT "WishlistInvitation_wishlistId_fkey" FOREIGN KEY ("wishlistId") REFERENCES "Wishlist"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Gift" ADD CONSTRAINT "Gift_wishlistId_fkey" FOREIGN KEY ("wishlistId") REFERENCES "Wishlist"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

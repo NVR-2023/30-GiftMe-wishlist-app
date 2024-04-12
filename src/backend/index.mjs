@@ -78,7 +78,9 @@ app.post('/api/create-user', async (req, res) => {
         name: userData.name,
         surname: userData.surname,
         avatarImage: userData.avatarImage,
-        birthDate: userData.birthDate
+        birthDate: new Date(userData.birthDate),
+        primaryAddress: userData.primaryAddress,
+        secondaryAddress: userData.secondaryAddress
       }
     })
     res.status(201).json({
