@@ -10,11 +10,10 @@ CREATE TABLE "UserProfile" (
     "name" TEXT NOT NULL,
     "surname" TEXT NOT NULL,
     "avatarImage" TEXT,
-    "email" TEXT NOT NULL,
-    "password" TEXT NOT NULL,
     "birthDate" TIMESTAMP(3) NOT NULL,
     "primaryAddress" TEXT NOT NULL,
     "secondaryAddress" TEXT,
+    "authUserId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "UserProfile_pkey" PRIMARY KEY ("id")
@@ -116,6 +115,9 @@ CREATE TABLE "Notification" (
 
     CONSTRAINT "Notification_pkey" PRIMARY KEY ("id")
 );
+
+-- CreateIndex
+CREATE UNIQUE INDEX "UserProfile_authUserId_key" ON "UserProfile"("authUserId");
 
 -- AddForeignKey
 ALTER TABLE "Group" ADD CONSTRAINT "Group_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "UserProfile"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
