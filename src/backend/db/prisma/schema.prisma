@@ -12,7 +12,7 @@ model UserProfile {
   name                     String
   surname                  String
   avatarImage              String?
-  birthDate                DateTime
+  birthDate                String
   primaryAddress           String
   secondaryAddress         String?
   authUserId               String               @unique
