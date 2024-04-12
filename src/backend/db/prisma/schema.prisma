@@ -13,7 +13,6 @@ model UserProfile {
   surname                  String
   avatarImage              String?
   birthDate                String
-  primaryAddress           String
   secondaryAddress         String?
   authUserId               String               @unique
   createdAt                DateTime             @default(now())
