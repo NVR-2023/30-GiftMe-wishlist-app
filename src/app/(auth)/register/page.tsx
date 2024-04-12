@@ -1,5 +1,5 @@
 import Image from "next/image";
-import RegisterForm from "@/frontend/sections/register/register-form";
+import RegisterForm from "../../../frontend/sections/register/register-form";
 
 const Register = () => {
   return (
@@ -10,7 +10,7 @@ const Register = () => {
        
           </div>
         </div>
-        <p>Testing</p>
+        <p>Testing #2</p>
         <div className="col-span-1">
           <RegisterForm />
         </div>
