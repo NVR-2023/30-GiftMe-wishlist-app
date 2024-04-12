@@ -22,7 +22,6 @@ export const CreateUser = {
           surname: userData.surname,
           avatarImage: userData.avatarImage,
           birthDate: userData.birthDate,
-          primaryAddress: userData.primaryAddress,
           secondaryAddress: userData.secondaryAddress,
         },
       });

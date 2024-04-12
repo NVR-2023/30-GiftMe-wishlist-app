@@ -13,9 +13,7 @@ model UserProfile {
   surname                  String
   avatarImage              String?
   birthDate                String
-  primaryAddress           String
-  secondaryAddress         String?
-  authUserId               String               @unique
+  secondaryAddress         String?              @unique
   createdAt                DateTime             @default(now())
   createdGroups            Group[]              @relation("CreatedBy")
   groupMember              GroupMember[]        @relation("groupMember")
