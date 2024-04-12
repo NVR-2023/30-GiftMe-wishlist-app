@@ -18,6 +18,8 @@ model UserProfile {
   name                     String
   surname                  String
   avatarImage              String?
+  email                    String
+  password                 String
   birthDate                DateTime
   primaryAddress           String
   secondaryAddress         String?
