@@ -70,7 +70,7 @@ app.post('/api/create-user', async (req, res) => {
     const userData = req.body
 
     // Retrieve the user data from localStorage
-    const user = JSON.parse(localStorage.getItem('userData'))
+    // const user = JSON.parse(localStorage.getItem('userData'))
 
     // Create user profile
     const newUserProfile = await prisma.userProfile.create({
@@ -78,7 +78,11 @@ app.post('/api/create-user', async (req, res) => {
         name: userData.name,
         surname: userData.surname,
         avatarImage: userData.avatarImage,
-        birthDate: userData.birthDate
+        email: userData.email,
+        password: userData.password,
+        birthDate: new Date(userData.birthDate),
+        primaryAddress: userData.primaryAddress,
+        secondaryAddress: userData.secondaryAddress
       }
     })
     res.status(201).json({
@@ -93,35 +97,36 @@ app.post('/api/create-user', async (req, res) => {
   }
 })
 
-// LOGIN ROUTE
-app.post('/api/login', async (req, res) => {
-  try {
-    // Authenticate user via Supabase
-    const { email, password } = req.body
+// // LOGIN ROUTE
+// app.post('/api/login', async (req, res) => {
+//   try {
+//     // Authenticate user via Supabase
+//     const { email, password } = req.body
 
-    // Call Supabase to authenticate user
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email: email,
-      password: password
-    })
-    // Check for errors
-    if (error) {
-      throw error
-    }
+//     // Call Supabase to authenticate user
+//     const { data, error } = await supabase.auth.signInWithPassword({
+//       email: email,
+//       password: password
+//     })
+//     // Check for errors
+//     if (error) {
+//       throw error
+//     }
+//     // res.status(200).json({ message: 'Login successful', data })
 
-    // Retrieve user profile using email
-    const userProfile = await prisma.userProfile.findUnique({
-      where: { email: email }
-    })
+//     // Retrieve user profile using email
+//     const userProfile = await prisma.userProfile.findUnique({
+//       where: { email: email }
+//     })
 
-    // If authentication successful, send success response
-    res.status(200).json({ message: 'Login successful', user: userProfile })
-  } catch (error) {
-    // If any error occurred during login, send error response
-    console.error('Error logging in:', error.message)
-    res.status(500).json({ error: 'Failed to login', message: error.message })
-  }
-})
+//     // If authentication successful, send success response
+//     res.status(200).json({ message: 'Login successful', user: userProfile })
+//   } catch (error) {
+//     // If any error occurred during login, send error response
+//     console.error('Error logging in:', error.message)
+//     res.status(500).json({ error: 'Failed to login', message: error.message })
+//   }
+// })
 
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}`)
