@@ -20,7 +20,6 @@ export const CreateUser = {
           surname: userData.surname,
           avatarImage: userData.avatarImage,
           birthDate: userData.birthDate,
-          secondaryAddress: userData.secondaryAddress,
         },
       });
       return newUser;
