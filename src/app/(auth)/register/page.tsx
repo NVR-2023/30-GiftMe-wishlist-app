@@ -10,6 +10,7 @@ const Register = () => {
        
           </div>
         </div>
+        <p>Testing</p>
         <div className="col-span-1">
           <RegisterForm />
         </div>
