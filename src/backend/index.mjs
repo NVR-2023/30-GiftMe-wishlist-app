@@ -31,19 +31,18 @@ const prisma = new PrismaClient({
 // Middleware to parse JSON bodies
 app.use(express.json())
 
-//Sign-up Route
+//SIGN-UP ROUTE
 app.post('/api/signup', async (req, res) => {
   try {
     const { email, password } = req.body
 
     //signup the user in the auth.users table
-    const { user, error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email,
       password
     })
 
-    console.log('User:', user) // Log user object
-    console.log('Error:', error) // Log error object
+    console.log('Data:', data) // Log user object
 
     if (error) {
       console.error('Error signing up:', error.message)
@@ -51,20 +50,28 @@ app.post('/api/signup', async (req, res) => {
         .status(400)
         .json({ error: 'Failed to sign up', message: error.message })
     }
-    res.status(201).json({ message: 'Sign up succesful', user })
+
+    // Extract the user data from the response
+    const userData = data.user
+
+    // Store the user data in localStorage
+    localStorage.setItem('userData', JSON.stringify(userData))
+
+    res.status(201).json({ message: 'Sign up succesful', data })
   } catch (err) {
     console.error('Error signing up:', err.message)
     res.status(500).json({ error: 'Failed to sign up', message: err.message })
   }
-  console.log('User:', user)
 })
 
-// Create a new user
+// CREATE NEW USER ROUTE
 app.post('/api/create-user', async (req, res) => {
   try {
     const userData = req.body
 
-    // const authUserId = req.user.id
+    // Retrieve the user data from localStorage
+    const user = JSON.parse(localStorage.getItem('userData'))
+
     // Create user profile
     const newUserProfile = await prisma.userProfile.create({
       data: {
@@ -73,7 +80,8 @@ app.post('/api/create-user', async (req, res) => {
         avatarImage: userData.avatarImage,
         birthDate: new Date(userData.birthDate),
         primaryAddress: userData.primaryAddress,
-        secondaryAddress: userData.secondaryAddress
+        secondaryAddress: userData.secondaryAddress,
+        authUserId: user.id
       }
     })
     res.status(201).json({
@@ -88,7 +96,7 @@ app.post('/api/create-user', async (req, res) => {
   }
 })
 
-// Login route
+// LOGIN ROUTE
 app.post('/api/login', async (req, res) => {
   try {
     // Authenticate user via Supabase

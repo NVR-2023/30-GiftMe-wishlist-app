@@ -15,6 +15,7 @@ model UserProfile {
   birthDate                DateTime
   primaryAddress           String
   secondaryAddress         String?
+  authUserId               String               @unique
   createdAt                DateTime             @default(now())
   createdGroups            Group[]              @relation("CreatedBy")
   groupMember              GroupMember[]        @relation("groupMember")
