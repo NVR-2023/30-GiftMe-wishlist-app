@@ -8,7 +8,6 @@ export const UserController = {
     try {
       const userData: UserData = req.body;
       const newUser = await CreateUser.createUser(userData);
-      console.log("primary address", userData.primaryAddress);
       res.status(201).json(newUser);
     } catch (error: unknown) {
       console.error("Error creating user", error);
