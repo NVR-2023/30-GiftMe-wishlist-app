@@ -52,10 +52,10 @@ app.post('/api/signup', async (req, res) => {
     }
 
     // Extract the user data from the response
-    const userData = data.user
+    // const userData = data.user
 
-    // Store the user data in localStorage
-    localStorage.setItem('userData', JSON.stringify(userData))
+    // Store the user data in localStorage - Need to setup localstorage
+    // localStorage.setItem('userData', JSON.stringify(userData))
 
     res.status(201).json({ message: 'Sign up succesful', data })
   } catch (err) {
